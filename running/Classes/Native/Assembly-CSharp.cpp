@@ -221,6 +221,10 @@ struct Animator_t8A52E42AE54F76681838FE9E632683EF3952E883;
 struct ApplicationManager_tB7E23C5AA25B6525004763BCAE43B0C2BE1AFB82;
 // System.AsyncCallback
 struct AsyncCallback_t7FEF460CBDCFB9C5FA2EF776984778B9A4145F4C;
+// UnityEngine.AudioClip
+struct AudioClip_t5D272C4EB4F2D3ED49F1C346DEA373CF6D585F20;
+// UnityEngine.AudioSource
+struct AudioSource_t871AC2272F896738252F04EE949AEF5B241D3299;
 // BWEffect
 struct BWEffect_tC9079A70DC24699C2816A946DF88AD6091D62CF8;
 // UnityEngine.Behaviour
@@ -465,8 +469,14 @@ struct WatchExample_t847AA1EDC4442A2FFC899B1B366A2E4BE1BB0BB1;
 struct WebCamTexture_t2021D179149C925AA6D73E6F1898C8D46521C749;
 // WristInfoGizmo
 struct WristInfoGizmo_t6CBC35D8BEA7BFE3CA1560F037C271CE196091B0;
+// sound
+struct sound_t1EC0EAEDC5CDE9B31AE57451CF2BE6F18DC062D9;
 // vibrate
 struct vibrate_t14A8E112C953B25E88BE6F8DBF8E34526BF0D816;
+// UnityEngine.AudioClip/PCMReaderCallback
+struct PCMReaderCallback_t3396D9613664F0AFF65FB91018FD0F901CC16F1E;
+// UnityEngine.AudioClip/PCMSetPositionCallback
+struct PCMSetPositionCallback_t8D7135A2FB40647CAEC93F5254AD59E18DEB6072;
 // UnityEngine.Camera/CameraCallback
 struct CameraCallback_t844E527BFE37BC0495E7F67993E43C07642DA9DD;
 // Category/<AlignIcons>d__22
@@ -2411,6 +2421,15 @@ struct TMP_TextProcessingStack_1_t57AECDCC936A7FF1D6CF66CA11560B28A675648D
 	int32_t ___m_Count_5;
 };
 
+// UnityEngine.AudioClip
+struct AudioClip_t5D272C4EB4F2D3ED49F1C346DEA373CF6D585F20  : public Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C
+{
+	// UnityEngine.AudioClip/PCMReaderCallback UnityEngine.AudioClip::m_PCMReaderCallback
+	PCMReaderCallback_t3396D9613664F0AFF65FB91018FD0F901CC16F1E* ___m_PCMReaderCallback_4;
+	// UnityEngine.AudioClip/PCMSetPositionCallback UnityEngine.AudioClip::m_PCMSetPositionCallback
+	PCMSetPositionCallback_t8D7135A2FB40647CAEC93F5254AD59E18DEB6072* ___m_PCMSetPositionCallback_5;
+};
+
 // UnityEngine.Component
 struct Component_t39FBE53E5EFCF4409111FB22C15FF73717632EC3  : public Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C
 {
@@ -2966,6 +2985,11 @@ struct Animator_t8A52E42AE54F76681838FE9E632683EF3952E883  : public Behaviour_t0
 {
 };
 
+// UnityEngine.AudioBehaviour
+struct AudioBehaviour_t2DC0BEF7B020C952F3D2DA5AAAC88501C7EEB941  : public Behaviour_t01970CFBBA658497AE30F311C447DB0440BAB7FA
+{
+};
+
 // UnityEngine.Camera
 struct Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184  : public Behaviour_t01970CFBBA658497AE30F311C447DB0440BAB7FA
 {
@@ -3039,6 +3063,11 @@ struct ApplicationManager_tB7E23C5AA25B6525004763BCAE43B0C2BE1AFB82_StaticFields
 {
 	// ApplicationManager ApplicationManager::_instance
 	ApplicationManager_tB7E23C5AA25B6525004763BCAE43B0C2BE1AFB82* ____instance_4;
+};
+
+// UnityEngine.AudioSource
+struct AudioSource_t871AC2272F896738252F04EE949AEF5B241D3299  : public AudioBehaviour_t2DC0BEF7B020C952F3D2DA5AAAC88501C7EEB941
+{
 };
 
 // BWEffect
@@ -3923,6 +3952,19 @@ struct WristInfoGizmo_t6CBC35D8BEA7BFE3CA1560F037C271CE196091B0  : public MonoBe
 	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___leftWrist3D_7;
 	// UnityEngine.GameObject WristInfoGizmo::rightWrist3D
 	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___rightWrist3D_8;
+};
+
+// sound
+struct sound_t1EC0EAEDC5CDE9B31AE57451CF2BE6F18DC062D9  : public MonoBehaviour_t532A11E69716D348D8AA7F854AFCBFCB8AD17F71
+{
+	// GestureInfo sound::gesture
+	GestureInfo_t6A3649A61CC6AE41146CD70953470FF8096805F3 ___gesture_4;
+	// UnityEngine.AudioSource sound::audioSource
+	AudioSource_t871AC2272F896738252F04EE949AEF5B241D3299* ___audioSource_5;
+	// UnityEngine.AudioClip sound::clip
+	AudioClip_t5D272C4EB4F2D3ED49F1C346DEA373CF6D585F20* ___clip_6;
+	// System.Single sound::volume
+	float ___volume_7;
 };
 
 // vibrate
@@ -6793,6 +6835,10 @@ inline Image_tBC1D03F63BF71132E9A5E472B8742F172A011E7E* Component_GetComponent_T
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Material_SetColor_mFAB32FAA44461E46FD707B34184EC080CBB3539F (Material_t18053F08F347D0DCA5E1140EC7EC4533DD8A14E3* __this, String_t* ___name0, Color_tD001788D726C3A7F1379BEED0260B9591F440C1F ___value1, const RuntimeMethod* method) ;
 // System.String UnityEngine.Vector3::ToString()
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* Vector3_ToString_m6C24B9F0382D25D75B05C606E127CD14660574EE (Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2* __this, const RuntimeMethod* method) ;
+// System.Void sound::UseTriggerGesture(GestureInfo)
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void sound_UseTriggerGesture_m73E0EBFFA104DD4A9F55F626781AD0A03688B8A0 (sound_t1EC0EAEDC5CDE9B31AE57451CF2BE6F18DC062D9* __this, GestureInfo_t6A3649A61CC6AE41146CD70953470FF8096805F3 ___gesture0, const RuntimeMethod* method) ;
+// System.Void UnityEngine.AudioSource::PlayOneShot(UnityEngine.AudioClip,System.Single)
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AudioSource_PlayOneShot_mF6FE95C58996B38EF6E7F7482F95F5E15E0AB30B (AudioSource_t871AC2272F896738252F04EE949AEF5B241D3299* __this, AudioClip_t5D272C4EB4F2D3ED49F1C346DEA373CF6D585F20* ___clip0, float ___volumeScale1, const RuntimeMethod* method) ;
 // System.Void vibrate::UseTriggerGesture(GestureInfo)
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void vibrate_UseTriggerGesture_mC6E2E6FD4A66A1160B55AF8CA1C64F62A441BA66 (vibrate_t14A8E112C953B25E88BE6F8DBF8E34526BF0D816* __this, GestureInfo_t6A3649A61CC6AE41146CD70953470FF8096805F3 ___gesture0, const RuntimeMethod* method) ;
 // TMPro.TMP_InputField/SubmitEvent TMPro.TMP_InputField::get_onSubmit()
@@ -25582,6 +25628,81 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void RingManager__ctor_m55650CC3CBD17EC5666A0
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
+// System.Void sound::Update()
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void sound_Update_m416FC1FD3695A951B3FF48DC18DE1C310007F029 (sound_t1EC0EAEDC5CDE9B31AE57451CF2BE6F18DC062D9* __this, const RuntimeMethod* method) 
+{
+	{
+		// gesture = ManomotionManager.Instance.Hand_infos[0].hand_info.gesture_info;
+		ManomotionManager_t4EFA3118B6D83A2DAD25A04F7E7ED7DE2B2A0491* L_0;
+		L_0 = ManomotionManager_get_Instance_m635F87EFF6DB5E12CC7D6FC3927B9825B34F01B7_inline(NULL);
+		NullCheck(L_0);
+		HandInfoUnityU5BU5D_t48596BBE2D345A2F674A1F333E45B3D7503B0E21* L_1;
+		L_1 = ManomotionManager_get_Hand_infos_m22E9E890AA4EA7CDFAAC11E6AAFF9C619B8E9FD1_inline(L_0, NULL);
+		NullCheck(L_1);
+		HandInfo_tDB1B91EA39130F59CAE8B948A166A546254F670F* L_2 = (&((L_1)->GetAddressAt(static_cast<il2cpp_array_size_t>(0)))->___hand_info_0);
+		GestureInfo_t6A3649A61CC6AE41146CD70953470FF8096805F3 L_3 = L_2->___gesture_info_1;
+		__this->___gesture_4 = L_3;
+		// UseTriggerGesture(gesture);
+		GestureInfo_t6A3649A61CC6AE41146CD70953470FF8096805F3 L_4 = __this->___gesture_4;
+		sound_UseTriggerGesture_m73E0EBFFA104DD4A9F55F626781AD0A03688B8A0(__this, L_4, NULL);
+		// }
+		return;
+	}
+}
+// System.Void sound::UseTriggerGesture(GestureInfo)
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void sound_UseTriggerGesture_m73E0EBFFA104DD4A9F55F626781AD0A03688B8A0 (sound_t1EC0EAEDC5CDE9B31AE57451CF2BE6F18DC062D9* __this, GestureInfo_t6A3649A61CC6AE41146CD70953470FF8096805F3 ___gesture0, const RuntimeMethod* method) 
+{
+	{
+		// if (gesture.mano_gesture_trigger == ManoGestureTrigger.PICK)
+		GestureInfo_t6A3649A61CC6AE41146CD70953470FF8096805F3 L_0 = ___gesture0;
+		int32_t L_1 = L_0.___mano_gesture_trigger_2;
+		if ((!(((uint32_t)L_1) == ((uint32_t)7))))
+		{
+			goto IL_0029;
+		}
+	}
+	{
+		// if (gesture.left_right_hand == LeftOrRightHand.RIGHT_HAND)
+		GestureInfo_t6A3649A61CC6AE41146CD70953470FF8096805F3 L_2 = ___gesture0;
+		int32_t L_3 = L_2.___left_right_hand_5;
+		if ((!(((uint32_t)L_3) == ((uint32_t)1))))
+		{
+			goto IL_0029;
+		}
+	}
+	{
+		// audioSource.PlayOneShot(clip, volume);
+		AudioSource_t871AC2272F896738252F04EE949AEF5B241D3299* L_4 = __this->___audioSource_5;
+		AudioClip_t5D272C4EB4F2D3ED49F1C346DEA373CF6D585F20* L_5 = __this->___clip_6;
+		float L_6 = __this->___volume_7;
+		NullCheck(L_4);
+		AudioSource_PlayOneShot_mF6FE95C58996B38EF6E7F7482F95F5E15E0AB30B(L_4, L_5, L_6, NULL);
+	}
+
+IL_0029:
+	{
+		// }
+		return;
+	}
+}
+// System.Void sound::.ctor()
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void sound__ctor_mEFB5C33A992A1C5C0117F62472FB97DA7A969FDD (sound_t1EC0EAEDC5CDE9B31AE57451CF2BE6F18DC062D9* __this, const RuntimeMethod* method) 
+{
+	{
+		// public float volume=0.5f;
+		__this->___volume_7 = (0.5f);
+		MonoBehaviour__ctor_m592DB0105CA0BC97AA1C5F4AD27B12D68A3B7C1E(__this, NULL);
+		return;
+	}
+}
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
 // System.Void vibrate::Update()
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void vibrate_Update_mF8D6E385F84820E392D2C43C99B3D54FFC53E0A6 (vibrate_t14A8E112C953B25E88BE6F8DBF8E34526BF0D816* __this, const RuntimeMethod* method) 
 {
@@ -25612,16 +25733,16 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void vibrate_UseTriggerGesture_mC6E2E6FD4A66A
 		int32_t L_1 = L_0.___mano_gesture_trigger_2;
 		if ((!(((uint32_t)L_1) == ((uint32_t)7))))
 		{
-			goto IL_0016;
+			goto IL_0017;
 		}
 	}
 	{
-		// if (gesture.left_right_hand == LeftOrRightHand.LEFT_HAND)
+		// if (gesture.left_right_hand == LeftOrRightHand.RIGHT_HAND)
 		GestureInfo_t6A3649A61CC6AE41146CD70953470FF8096805F3 L_2 = ___gesture0;
 		int32_t L_3 = L_2.___left_right_hand_5;
-		if (L_3)
+		if ((!(((uint32_t)L_3) == ((uint32_t)1))))
 		{
-			goto IL_0016;
+			goto IL_0017;
 		}
 	}
 	{
@@ -25629,7 +25750,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void vibrate_UseTriggerGesture_mC6E2E6FD4A66A
 		Handheld_Vibrate_m820B68A9A3A1C5C0173B99A94C2054778BC3A2F9(NULL);
 	}
 
-IL_0016:
+IL_0017:
 	{
 		// }
 		return;

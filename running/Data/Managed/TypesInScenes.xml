@@ -28,6 +28,7 @@
 		<type fullname="MenuButton" preserve="nothing"/>
 		<type fullname="RingManager" preserve="nothing"/>
 		<type fullname="SkeletonManager" preserve="nothing"/>
+		<type fullname="sound" preserve="nothing"/>
 		<type fullname="StartApplicationInstruction" preserve="nothing"/>
 		<type fullname="ToggleGizmos" preserve="nothing"/>
 		<type fullname="ToggleVisualizationValues" preserve="nothing"/>
@@ -60,7 +61,9 @@
 		<type fullname="UnityEngine.AnimationClip" preserve="nothing"/>
 		<type fullname="UnityEngine.Animator" preserve="nothing"/>
 		<type fullname="UnityEngine.AudioBehaviour" preserve="nothing"/>
+		<type fullname="UnityEngine.AudioClip" preserve="nothing"/>
 		<type fullname="UnityEngine.AudioListener" preserve="nothing"/>
+		<type fullname="UnityEngine.AudioSource" preserve="nothing"/>
 		<type fullname="UnityEngine.Behaviour" preserve="nothing"/>
 		<type fullname="UnityEngine.Camera" preserve="nothing"/>
 		<type fullname="UnityEngine.Canvas" preserve="nothing"/>

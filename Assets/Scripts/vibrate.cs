@@ -22,7 +22,7 @@ public class vibrate : MonoBehaviour
     {
         if (gesture.mano_gesture_trigger == ManoGestureTrigger.PICK)
         {
-            if (gesture.left_right_hand == LeftOrRightHand.LEFT_HAND)
+            if (gesture.left_right_hand == LeftOrRightHand.RIGHT_HAND)
             // Your code here
             {Handheld.Vibrate();}
         }
