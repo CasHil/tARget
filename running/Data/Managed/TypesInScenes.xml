@@ -26,6 +26,7 @@
 		<type fullname="ManoUtils" preserve="nothing"/>
 		<type fullname="ManoVisualization" preserve="nothing"/>
 		<type fullname="MenuButton" preserve="nothing"/>
+		<type fullname="onclickvib" preserve="nothing"/>
 		<type fullname="RingManager" preserve="nothing"/>
 		<type fullname="SkeletonManager" preserve="nothing"/>
 		<type fullname="sound" preserve="nothing"/>
