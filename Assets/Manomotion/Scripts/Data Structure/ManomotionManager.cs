@@ -23,21 +23,28 @@ public class ManomotionManager : ManomotionBase
 
     ///Sends information after each frame is processed by the SDK.
     public static Action OnManoMotionFrameProcessed;
+
     ///Sends information after the license is checked by the SDK.
     public static Action OnManoMotionLicenseInitialized;
+
     ///Sends information when changing between 2D and 3D joints
     public static Action<int, int> OnSkeleton3dActive;
 
-    #endregion
+    #endregion Events
 
     #region Singleton
+
     protected static ManomotionManager instance;
-    #endregion
+
+    #endregion Singleton
 
     #region variables
+
     /// The information about the hand
     protected HandInfoUnity[] hand_infos;
+
     protected VisualizationInfo visualization_info;
+
     /// The information about the Session values, the SDK settings
     protected Session manomotion_session;
 
@@ -46,38 +53,42 @@ public class ManomotionManager : ManomotionBase
 
     /// the width of the images processed
     protected int _width;
+
     /// the height of the images processed
     protected int _height;
+
     protected int _fps;
     protected int _processing_time;
 
     private bool _initialized;
     private float fpsCooldown = 0;
     private int frameCount = 0;
+
     /// Stores the processing time values
     private List<int> processing_time_list = new List<int>();
 
     /// Frame pixels
     protected Color32[] framePixelColors;
+
     /// Frame pixels
     protected Color32[] MRframePixelColors;
+
     protected ManoLicense _manoLicense;
 
     protected ManoSettings _manoSettings;
     protected ImageFormat currentImageFormat;
 
-    #endregion
+    #endregion variables
 
     #region imports
 
 #if UNITY_IOS
 	const string library = "__Internal";
 #elif UNITY_ANDROID
-    const string library = "manomotion";
+    private const string library = "manomotion";
 #else
     const string library = "manomotion";
 #endif
-
 
     [DllImport(library)]
     private static extern void processFrame(ref HandInfo hand_info0, ref Session manomotion_session);
@@ -97,7 +108,7 @@ public class ManomotionManager : ManomotionBase
     [DllImport(library)]
     private static extern void init(ManoSettings settings, ref ManoLicense mano_license);
 
-    #endregion
+    #endregion imports
 
     #region init_wrappers
 
@@ -128,9 +139,10 @@ public class ManomotionManager : ManomotionBase
         setMRFrameArray(pixels);
     }
 
-    #endregion
+    #endregion init_wrappers
 
     #region Propperties
+
     internal int Processing_time
     {
         get
@@ -236,7 +248,7 @@ public class ManomotionManager : ManomotionBase
         }
     }
 
-    #endregion
+    #endregion Propperties
 
     #region Awake/Start
 
@@ -266,7 +278,7 @@ public class ManomotionManager : ManomotionBase
     /// Respond to the event of a ManoMotionFrame resized.
     /// </summary>
     /// <param name="newFrame">The new frame to process</param>
-    void HandleManoMotionFrameResized(ManoMotionFrame newFrame)
+    private void HandleManoMotionFrameResized(ManoMotionFrame newFrame)
     {
         SetResolutionValues(newFrame.width, newFrame.height);
     }
@@ -275,7 +287,7 @@ public class ManomotionManager : ManomotionBase
     /// Respond to the event of a ManoMotionFrame being initialized.
     /// </summary>
     /// <param name="newFrame">The new frame to process</param>
-    void HandleManoMotionFrameInitialized(ManoMotionFrame newFrame)
+    private void HandleManoMotionFrameInitialized(ManoMotionFrame newFrame)
     {
         SetResolutionValues(newFrame.width, newFrame.height);
         InstantiateVisualisationInfo();
@@ -285,7 +297,7 @@ public class ManomotionManager : ManomotionBase
     /// Respond to the event of a ManoMotionFrame being sent for processing.
     /// </summary>
     /// <param name="newFrame">The new frame to process</param>
-    void HandleNewFrame(ManoMotionFrame newFrame)
+    private void HandleNewFrame(ManoMotionFrame newFrame)
     {
         GetCameraFramePixelColors(newFrame);
         UpdateTexturesWithNewInfo(newFrame);
@@ -426,14 +438,12 @@ public class ManomotionManager : ManomotionBase
         backOrFrontText = GameObject.Find("BackOrFrontMode").GetComponent<TMP_Text>();
     }
 
-#endregion
+    #endregion Awake/Start
 
-#region update_methods
+    #region update_methods
 
     protected void Update()
     {
-
-
         try
         {
             if (_initialized)
@@ -441,13 +451,11 @@ public class ManomotionManager : ManomotionBase
                 CalculateFPSAndProcessingTime();
             }
         }
-
         catch
         {
             Debug.Log("Cant get camera information");
         }
     }
-
 
     /// <summary>
     /// Updates the orientation information as captured from the device to the Session
@@ -465,15 +473,19 @@ public class ManomotionManager : ManomotionBase
                     case SupportedOrientation.PORTRAIT:
                         manomotion_session.orientation = SupportedOrientation.PORTRAIT_FRONT_FACING;
                         break;
+
                     case SupportedOrientation.PORTRAIT_UPSIDE_DOWN:
                         manomotion_session.orientation = SupportedOrientation.PORTRAIT_UPSIDE_DOWN_FRONT_FACING;
                         break;
+
                     case SupportedOrientation.LANDSCAPE_LEFT:
                         manomotion_session.orientation = SupportedOrientation.LANDSCAPE_LEFT_FRONT_FACING;
                         break;
+
                     case SupportedOrientation.LANDSCAPE_RIGHT:
                         manomotion_session.orientation = SupportedOrientation.LANDSCAPE_RIGHT_FRONT_FACING;
                         break;
+
                     default:
                         break;
                 }
@@ -483,13 +495,11 @@ public class ManomotionManager : ManomotionBase
             backOrFrontText.text = manomotion_session.orientation.ToString();
 #endif
         }
-
         catch
         {
             Debug.Log("Can't handle orienation changed");
         }
     }
-
 
     /// <summary>
     /// Updates the RGB Frame of Visualization Info with the pixels captured from the camera.
@@ -706,7 +716,6 @@ public class ManomotionManager : ManomotionBase
         {
             manomotion_session.enabled_features.finger_info = 0;
         }
-
     }
 
     /// <summary>
@@ -750,9 +759,9 @@ public class ManomotionManager : ManomotionBase
         }
     }
 
-#endregion
+    #endregion update_methods
 
-#region update_wrappers
+    #region update_wrappers
 
     /// <summary>
     /// Wrapper method that calls the ManoMotion core tech to process the frame in order to perform hand tracking and gesture analysis
@@ -760,20 +769,18 @@ public class ManomotionManager : ManomotionBase
     protected void ProcessFrame()
     {
         processFrame(ref hand_infos[0].hand_info, ref manomotion_session);
-
     }
 
-#endregion
+    #endregion update_wrappers
 
     protected override void Init(string serial_key)
     {
-            init(_manoSettings, ref _manoLicense);
-            _initialized = true;
+        init(_manoSettings, ref _manoLicense);
+        _initialized = true;
 
         if (OnManoMotionLicenseInitialized != null)
         {
             OnManoMotionLicenseInitialized();
         }
     }
-
 }

@@ -35,7 +35,7 @@ public class RingManager : MonoBehaviour
             float centerPosition = 0.5f;
             Vector3 ringPlacement = Vector3.Lerp(fingerInfoGizmo.LeftFingerPoint3DPosition, fingerInfoGizmo.RightFingerPoint3DPosition, centerPosition);
 
-            Debug.Log("Finger info at: " + ringPlacement);
+            /*Debug.Log("Finger info at: " + ringPlacement);*/
             GameObject.Find("Finger").transform.position = ringPlacement;
         }
     }
