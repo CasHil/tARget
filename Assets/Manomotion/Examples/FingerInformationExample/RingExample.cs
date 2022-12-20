@@ -33,7 +33,7 @@ public class RingExample : MonoBehaviour
     private HandSide palm = HandSide.Palmside;
 
     /// <summary>
-    /// The gameobject contaning the image of the outlined hand. 
+    /// The gameobject contaning the image of the outlined hand.
     /// </summary>
     [SerializeField]
     private GameObject outlineImage;
@@ -59,7 +59,7 @@ public class RingExample : MonoBehaviour
             {
                 fingerInfoGizmo = GameObject.Find("TryOnManager").GetComponent<FingerInfoGizmo>();
             }
-            catch 
+            catch
             {
                 Debug.Log("Cant find 'TryOnManager' GameObject");
             }
@@ -74,11 +74,11 @@ public class RingExample : MonoBehaviour
     {
         ManomotionManager.Instance.ShouldRunFingerInfo(true);
         ManomotionManager.Instance.ShouldCalculateGestures(true);
-        int ringFingerIndexDefault = 4;
-        ManomotionManager.Instance.ToggleFingerInfoFinger(ringFingerIndexDefault);
+        int indexFingerIndexDefault = 2;
+        ManomotionManager.Instance.ToggleFingerInfoFinger(indexFingerIndexDefault);
     }
 
-    void Update()
+    private void Update()
     {
         ///Updates the gestureinfo
         gestureInfo = ManomotionManager.Instance.Hand_infos[0].hand_info.gesture_info;
@@ -107,7 +107,7 @@ public class RingExample : MonoBehaviour
         ///Place the ring at the ring placement position.
         transform.position = ringPlacement;
 
-        ///Sets the rotation of the ring in relation the the finger position when hand is rotated 
+        ///Sets the rotation of the ring in relation the the finger position when hand is rotated
         transform.LookAt(fingerInfoGizmo.LeftFingerPoint3DPosition);
 
         ///Scale the ring with the width from the 2 finger points and multiplyed by a scaleModifier.
@@ -148,28 +148,26 @@ public class RingExample : MonoBehaviour
         transform.position = -Vector3.one;
     }
 
-    /// current finger index, 4 default for ring finger;
-    private int currentFingerIndex = 4;
+    /// current finger index, 2 for index finger;
+    private int currentFingerIndex = 2;
 
     /// <summary>
     /// Toggles the finger that should use the ring and also updated the UI text.
     /// </summary>
     public void ToggleFingerForRing()
     {
-
-        if (currentFingerIndex < 5)
+        /*if (currentFingerIndex < 5)
         {
             currentFingerIndex++;
         }
         else
         {
             currentFingerIndex = 0;
-        }
+        }*/
 
         ManomotionManager.Instance.ToggleFingerInfoFinger(currentFingerIndex);
         SetSelectFingerButtonText();
     }
-
 
     /// <summary>
     /// Sets the button text on the UI to match current finger info.
@@ -181,21 +179,27 @@ public class RingExample : MonoBehaviour
             case 0:
                 changeFingerText.text = buttonText + "None";
                 break;
+
             case 1:
                 changeFingerText.text = buttonText + "Thumb";
                 break;
+
             case 2:
                 changeFingerText.text = buttonText + "Index";
                 break;
+
             case 3:
                 changeFingerText.text = buttonText + "Middle";
                 break;
+
             case 4:
                 changeFingerText.text = buttonText + "Ring";
                 break;
+
             case 5:
                 changeFingerText.text = buttonText + "Pinky";
                 break;
+
             default:
                 break;
         }

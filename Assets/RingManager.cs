@@ -8,30 +8,34 @@ public class RingManager : MonoBehaviour
     private FingerInfoGizmo fingerInfoGizmo;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         Screen.orientation = ScreenOrientation.Portrait;
 
-        if(fingerInfoGizmo == null){
-            try{
+        if (fingerInfoGizmo == null)
+        {
+            try
+            {
                 fingerInfoGizmo = GameObject.Find("TryOnManager").GetComponent<FingerInfoGizmo>();
             }
-            catch{
+            catch
+            {
                 Debug.Log("Failed to find TryOnManager");
             }
         }
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         //SetFingerInfoSettings();
-        if (ManomotionManager.Instance.Hand_infos[0].hand_info.gesture_info.mano_class == ManoClass.GRAB_GESTURE){
+        if (ManomotionManager.Instance.Hand_infos[0].hand_info.gesture_info.mano_class == ManoClass.GRAB_GESTURE)
+        {
             fingerInfoGizmo.ShowFingerInformation();
             float centerPosition = 0.5f;
             Vector3 ringPlacement = Vector3.Lerp(fingerInfoGizmo.LeftFingerPoint3DPosition, fingerInfoGizmo.RightFingerPoint3DPosition, centerPosition);
 
-            Debug.Log("Finger info at: "+ringPlacement);
+            Debug.Log("Finger info at: " + ringPlacement);
             GameObject.Find("Finger").transform.position = ringPlacement;
         }
     }
