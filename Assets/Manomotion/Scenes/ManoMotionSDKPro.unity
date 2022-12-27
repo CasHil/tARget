@@ -11775,6 +11775,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fingerInfoGizmo: {fileID: 0}
+  c1: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  c2: {r: 1, g: 0, b: 0, a: 1}
+  lengthOfLineRenderer: 20
 --- !u!4 &1466391619
 Transform:
   m_ObjectHideFlags: 0
