@@ -1,12 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 #if UNITY_EDITOR
+
 using UnityEditor;
+
 #endif
+
 using UnityEngine;
 using System;
+
 #if UNITY_ANDROID
+
 using UnityEngine.Android;
+
 #endif
 
 /// <summary>
@@ -14,14 +21,18 @@ using UnityEngine.Android;
 /// </summary>
 public class ManoUtils : MonoBehaviour
 {
-    #region  Event
+    #region Event
+
     public static Action OnOrientationChanged;
-    #endregion
+
+    #endregion Event
 
     public SupportedOrientation currentOrientation;
 
     #region Singleton
+
     private static ManoUtils instance;
+
     public static ManoUtils Instance
     {
         get
@@ -29,7 +40,8 @@ public class ManoUtils : MonoBehaviour
             return instance;
         }
     }
-    #endregion
+
+    #endregion Singleton
 
     private Vector3 correction_ratio = Vector3.one;
 
@@ -151,33 +163,43 @@ public class ManoUtils : MonoBehaviour
             case SupportedOrientation.FACE_DOWN:
                 ratio = (float)ManomotionManager.Instance.Height / ManomotionManager.Instance.Width;
                 break;
+
             case SupportedOrientation.FACE_UP:
                 ratio = (float)ManomotionManager.Instance.Height / ManomotionManager.Instance.Width;
                 break;
+
             case SupportedOrientation.PORTRAIT:
                 ratio = (float)ManomotionManager.Instance.Height / ManomotionManager.Instance.Width;
                 break;
+
             case SupportedOrientation.PORTRAIT_UPSIDE_DOWN:
                 ratio = (float)ManomotionManager.Instance.Height / ManomotionManager.Instance.Width;
                 break;
+
             case SupportedOrientation.LANDSCAPE_LEFT:
                 ratio = (float)ManomotionManager.Instance.Width / ManomotionManager.Instance.Height;
                 break;
+
             case SupportedOrientation.LANDSCAPE_RIGHT:
                 ratio = (float)ManomotionManager.Instance.Width / ManomotionManager.Instance.Height;
                 break;
+
             case SupportedOrientation.PORTRAIT_FRONT_FACING:
                 ratio = (float)ManomotionManager.Instance.Height / ManomotionManager.Instance.Width;
                 break;
+
             case SupportedOrientation.PORTRAIT_UPSIDE_DOWN_FRONT_FACING:
                 ratio = (float)ManomotionManager.Instance.Height / ManomotionManager.Instance.Width;
                 break;
+
             case SupportedOrientation.LANDSCAPE_LEFT_FRONT_FACING:
                 ratio = (float)ManomotionManager.Instance.Width / ManomotionManager.Instance.Height;
                 break;
+
             case SupportedOrientation.LANDSCAPE_RIGHT_FRONT_FACING:
                 ratio = (float)ManomotionManager.Instance.Width / ManomotionManager.Instance.Height;
                 break;
+
             default:
                 ratio = (float)ManomotionManager.Instance.Height / ManomotionManager.Instance.Width;
                 break;
@@ -206,37 +228,47 @@ public class ManoUtils : MonoBehaviour
             case SupportedOrientation.FACE_DOWN:
                 size = height;
                 break;
+
             case SupportedOrientation.FACE_UP:
                 size = height;
                 break;
+
             case SupportedOrientation.PORTRAIT:
                 size = height;
                 break;
+
             case SupportedOrientation.PORTRAIT_UPSIDE_DOWN:
                 size = height;
                 break;
+
             case SupportedOrientation.LANDSCAPE_LEFT:
                 width = height * Screen.width / Screen.height;
                 size = width / ratio;
                 break;
+
             case SupportedOrientation.LANDSCAPE_RIGHT:
                 width = height * Screen.width / Screen.height;
                 size = width / ratio;
                 break;
+
             case SupportedOrientation.PORTRAIT_FRONT_FACING:
                 size = height;
                 break;
+
             case SupportedOrientation.PORTRAIT_UPSIDE_DOWN_FRONT_FACING:
                 size = height;
                 break;
+
             case SupportedOrientation.LANDSCAPE_LEFT_FRONT_FACING:
                 width = height * Screen.width / Screen.height;
                 size = width / ratio;
                 break;
+
             case SupportedOrientation.LANDSCAPE_RIGHT_FRONT_FACING:
                 width = height * Screen.width / Screen.height;
                 size = width / ratio;
                 break;
+
             default:
                 width = height * Screen.width / Screen.height;
                 size = width / ratio;
@@ -259,33 +291,43 @@ public class ManoUtils : MonoBehaviour
             case SupportedOrientation.FACE_DOWN:
                 mesh_renderer.transform.localScale = new Vector3(size, size * ratio, 0f);
                 break;
+
             case SupportedOrientation.FACE_UP:
                 mesh_renderer.transform.localScale = new Vector3(size, size * ratio, 0f);
                 break;
+
             case SupportedOrientation.PORTRAIT:
                 mesh_renderer.transform.localScale = new Vector3(size, size * ratio, 0f);
                 break;
+
             case SupportedOrientation.PORTRAIT_UPSIDE_DOWN:
                 mesh_renderer.transform.localScale = new Vector3(size, size * ratio, 0f);
                 break;
+
             case SupportedOrientation.LANDSCAPE_LEFT:
                 mesh_renderer.transform.localScale = new Vector3(size * ratio, size, 0f);
                 break;
+
             case SupportedOrientation.LANDSCAPE_RIGHT:
                 mesh_renderer.transform.localScale = new Vector3(size * ratio, size, 0f);
                 break;
+
             case SupportedOrientation.PORTRAIT_FRONT_FACING:
                 mesh_renderer.transform.localScale = new Vector3(size, size * ratio, 0f);
                 break;
+
             case SupportedOrientation.PORTRAIT_UPSIDE_DOWN_FRONT_FACING:
                 mesh_renderer.transform.localScale = new Vector3(size, size * ratio, 0f);
                 break;
+
             case SupportedOrientation.LANDSCAPE_LEFT_FRONT_FACING:
                 mesh_renderer.transform.localScale = new Vector3(size * ratio, size, 0f);
                 break;
+
             case SupportedOrientation.LANDSCAPE_RIGHT_FRONT_FACING:
                 mesh_renderer.transform.localScale = new Vector3(size * ratio, size, 0f);
                 break;
+
             default:
                 mesh_renderer.transform.localScale = new Vector3(size, size * ratio, 0f);
                 break;
@@ -310,51 +352,61 @@ public class ManoUtils : MonoBehaviour
                 image_ratio = new Vector3(ratio, 1, 1);
                 correction_ratio = Vector3.Scale(screen_ratio, image_ratio);
                 break;
+
             case SupportedOrientation.FACE_UP:
                 screen_ratio = new Vector3(((float)Screen.height / Screen.width), 1, 1);
                 image_ratio = new Vector3(ratio, 1, 1);
                 correction_ratio = Vector3.Scale(screen_ratio, image_ratio);
                 break;
+
             case SupportedOrientation.PORTRAIT:
                 screen_ratio = new Vector3(((float)Screen.height / Screen.width), 1, 1);
                 image_ratio = new Vector3(ratio, 1, 1);
                 correction_ratio = Vector3.Scale(screen_ratio, image_ratio);
                 break;
+
             case SupportedOrientation.PORTRAIT_UPSIDE_DOWN:
                 screen_ratio = new Vector3(((float)Screen.height / Screen.width), 1, 1);
                 image_ratio = new Vector3(ratio, 1, 1);
                 correction_ratio = Vector3.Scale(screen_ratio, image_ratio);
                 break;
+
             case SupportedOrientation.LANDSCAPE_LEFT:
                 screen_ratio = new Vector3(1, 1 / ((float)Screen.height / Screen.width), 1);
                 image_ratio = new Vector3(1, 1 / ratio, 1);
                 correction_ratio = Vector3.Scale(screen_ratio, image_ratio);
                 break;
+
             case SupportedOrientation.LANDSCAPE_RIGHT:
                 screen_ratio = new Vector3(1, 1 / ((float)Screen.height / Screen.width), 1);
                 image_ratio = new Vector3(1, 1 / ratio, 1);
                 correction_ratio = Vector3.Scale(screen_ratio, image_ratio);
                 break;
+
             case SupportedOrientation.PORTRAIT_FRONT_FACING:
                 screen_ratio = new Vector3(((float)Screen.height / Screen.width), 1, 1);
                 image_ratio = new Vector3(ratio, 1, 1);
                 correction_ratio = Vector3.Scale(screen_ratio, image_ratio);
                 break;
+
             case SupportedOrientation.PORTRAIT_UPSIDE_DOWN_FRONT_FACING:
                 screen_ratio = new Vector3(((float)Screen.height / Screen.width), 1, 1);
                 image_ratio = new Vector3(ratio, 1, 1);
                 correction_ratio = Vector3.Scale(screen_ratio, image_ratio);
                 break;
+
             case SupportedOrientation.LANDSCAPE_LEFT_FRONT_FACING:
                 screen_ratio = new Vector3(1, 1 / ((float)Screen.height / Screen.width), 1);
                 image_ratio = new Vector3(1, 1 / ratio, 1);
                 correction_ratio = Vector3.Scale(screen_ratio, image_ratio);
                 break;
+
             case SupportedOrientation.LANDSCAPE_RIGHT_FRONT_FACING:
                 screen_ratio = new Vector3(1, 1 / ((float)Screen.height / Screen.width), 1);
                 image_ratio = new Vector3(1, 1 / ratio, 1);
                 correction_ratio = Vector3.Scale(screen_ratio, image_ratio);
                 break;
+
             default:
                 mesh_renderer.transform.localScale = new Vector3(size, size * ratio, 0f);
                 break;
@@ -370,7 +422,7 @@ public class ManoUtils : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Update()
     {
         CheckForScreenOrientationChange();
     }
@@ -378,7 +430,7 @@ public class ManoUtils : MonoBehaviour
     /// <summary>
     /// Checks for changes on the orientation of the device.
     /// </summary>
-    void CheckForScreenOrientationChange()
+    private void CheckForScreenOrientationChange()
     {
 #if UNITY_STANDALONE
         //currentOrientation = SupportedOrientation.LANDSCAPE_LEFT_FRONT_FACING;
@@ -400,7 +452,6 @@ public class ManoUtils : MonoBehaviour
                     OnOrientationChanged();
                 }
             }
-
         }
 #endif
     }
@@ -410,7 +461,7 @@ public class ManoUtils : MonoBehaviour
     /// </summary>
     /// <returns>The abs.</returns>
     /// <param name="vector">Requires a Vector3 value.</param>
-    Vector3 VectorAbs(Vector3 vector)
+    private Vector3 VectorAbs(Vector3 vector)
     {
         return new Vector3(Mathf.Abs(vector.x), Mathf.Abs(vector.y), Mathf.Abs(vector.z));
     }
@@ -428,36 +479,47 @@ public class ManoUtils : MonoBehaviour
                 case SupportedOrientation.PORTRAIT:
                     meshRenderer.transform.localRotation = Quaternion.Euler(0, 0, -90);
                     break;
+
                 case SupportedOrientation.PORTRAIT_UPSIDE_DOWN:
                     meshRenderer.transform.localRotation = Quaternion.Euler(0, 0, 90);
                     break;
+
                 case SupportedOrientation.LANDSCAPE_LEFT:
                     meshRenderer.transform.localRotation = Quaternion.Euler(0, 0, 0);
                     break;
+
                 case SupportedOrientation.LANDSCAPE_RIGHT:
                     meshRenderer.transform.localRotation = Quaternion.Euler(0, 0, 180);
                     break;
+
                 case SupportedOrientation.FACE_DOWN:
                     meshRenderer.transform.localRotation = Quaternion.Euler(0, 0, -90);
                     break;
+
                 case SupportedOrientation.FACE_UP:
                     meshRenderer.transform.localRotation = Quaternion.Euler(0, 0, -90);
                     break;
+
                 case SupportedOrientation.UNKNOWN:
                     meshRenderer.transform.localRotation = Quaternion.Euler(0, 0, -90);
                     break;
+
                 case SupportedOrientation.PORTRAIT_FRONT_FACING:
                     meshRenderer.transform.localRotation = Quaternion.Euler(0, 0, -90);
                     break;
+
                 case SupportedOrientation.PORTRAIT_UPSIDE_DOWN_FRONT_FACING:
                     meshRenderer.transform.localRotation = Quaternion.Euler(0, 0, 90);
                     break;
+
                 case SupportedOrientation.LANDSCAPE_LEFT_FRONT_FACING:
                     meshRenderer.transform.localRotation = Quaternion.Euler(0, 0, 0);
                     break;
+
                 case SupportedOrientation.LANDSCAPE_RIGHT_FRONT_FACING:
                     meshRenderer.transform.localRotation = Quaternion.Euler(0, 0, 180);
                     break;
+
                 default:
                     break;
             }

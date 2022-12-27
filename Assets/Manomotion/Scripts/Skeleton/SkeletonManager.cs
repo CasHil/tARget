@@ -7,8 +7,8 @@ using UnityEngine.UI;
 /// </summary>
 public class SkeletonManager : MonoBehaviour
 {
-
     #region Singleton
+
     /// <summary>
     /// Creates instance of SkeletonManager
     /// </summary>
@@ -26,13 +26,13 @@ public class SkeletonManager : MonoBehaviour
             Debug.LogWarning("More than 1 SkeletonManager in scene");
         }
     }
-    #endregion
+
+    #endregion Singleton
 
     [HideInInspector]
-    ///The list of joints used for visualization
     public List<GameObject> _listOfJoints = new List<GameObject>();
 
-    ///The prefab that will be used for visualization of the joints 
+    ///The prefab that will be used for visualization of the joints
     [SerializeField]
     private GameObject[] jointPrefab;
 
@@ -44,6 +44,7 @@ public class SkeletonManager : MonoBehaviour
 
     ///Skeleton confidence
     private bool hasConfidence;
+
     private float skeletonConfidenceThreshold = 0.0001f;
 
     ///The materials used on the joints / Line renderers
@@ -60,9 +61,8 @@ public class SkeletonManager : MonoBehaviour
         Inititialize();
     }
 
-    void Inititialize()
+    private void Inititialize()
     {
-
         for (int i = 0; i < jointPrefab.Length; i++)
         {
             jointPrefab[i] = Instantiate(jointPrefab[i]);
@@ -70,7 +70,7 @@ public class SkeletonManager : MonoBehaviour
 
         SkeletonModel(0, 1);
 
-        ManomotionManager.OnSkeleton3dActive += SkeletonModel;     
+        ManomotionManager.OnSkeleton3dActive += SkeletonModel;
 
         for (int i = 0; i < jointsMaterial.Length; i++)
         {
@@ -104,7 +104,6 @@ public class SkeletonManager : MonoBehaviour
             lineRenderers = (jointPrefab[modelToLoad].GetComponentsInChildren<LineRenderer>());
             ResetLineRenderers();
         }
-
         else
         {
             Debug.LogFormat("Current model have {0} joints, need to have 21 joints", jointPrefab[modelToLoad].transform.childCount);
@@ -126,8 +125,7 @@ public class SkeletonManager : MonoBehaviour
         lineRenderers[1].positionCount = 6;
     }
 
-
-    void Update()
+    private void Update()
     {
         skeletonInfo = ManomotionManager.Instance.Hand_infos[0].hand_info.tracking_info.skeleton;
         hasConfidence = skeletonInfo.confidence > skeletonConfidenceThreshold;
@@ -166,7 +164,7 @@ public class SkeletonManager : MonoBehaviour
                     yRotation = radianToDegrees((3.14f + skeletonInfo.orientation_joints[i].y));
                 }
 
-                //Correct the joint orientation if right hand is used with front facing orienations 
+                //Correct the joint orientation if right hand is used with front facing orienations
                 if (ManomotionManager.Instance.Hand_infos[0].hand_info.gesture_info.left_right_hand == LeftOrRightHand.RIGHT_HAND && (int)ManomotionManager.Instance.Manomotion_Session.orientation > 6)
                 {
                     yRotation = radianToDegrees((3.14f + skeletonInfo.orientation_joints[i].y));
@@ -176,12 +174,15 @@ public class SkeletonManager : MonoBehaviour
                 {
                     case HandSide.None:
                         break;
+
                     case HandSide.Backside:
                         break;
+
                     case HandSide.Palmside:
                         xRotation = -xRotation;
                         zRotation = -zRotation;
                         break;
+
                     default:
                         break;
                 }
@@ -201,7 +202,6 @@ public class SkeletonManager : MonoBehaviour
     {
         if (hasConfidence)
         {
-
             if (jointsMaterial[jointsMaterial.Length - 1].color.a < 1)
             {
                 for (int i = 0; i < jointsMaterial.Length; i++)
@@ -221,7 +221,6 @@ public class SkeletonManager : MonoBehaviour
                 _listOfJoints[i].transform.position = newPosition3d;
             }
         }
-
         else
         {
             if (jointsMaterial[0].color.a > 0)

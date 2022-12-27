@@ -359,7 +359,7 @@ public class ManomotionManager : ManomotionBase
         manomotion_session = new Session();
         manomotion_session.orientation = ManoUtils.Instance.currentOrientation;
         manomotion_session.add_on = AddOn.DEFAULT;
-        manomotion_session.smoothing_controller = 0f;
+        manomotion_session.smoothing_controller = 0.5f;
         manomotion_session.gesture_smoothing_controller = 0.65f;
         manomotion_session.enabled_features.gestures = 1;
         manomotion_session.enabled_features.skeleton_3d = 0;
@@ -433,7 +433,7 @@ public class ManomotionManager : ManomotionBase
     /// </summary>
     protected override void SetUnityConditions()
     {
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 5;
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         backOrFrontText = GameObject.Find("BackOrFrontMode").GetComponent<TMP_Text>();
     }
