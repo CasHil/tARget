@@ -433,7 +433,7 @@ public class ManomotionManager : ManomotionBase
     /// </summary>
     protected override void SetUnityConditions()
     {
-        Application.targetFrameRate = 5;
+        Application.targetFrameRate = 60;
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         backOrFrontText = GameObject.Find("BackOrFrontMode").GetComponent<TMP_Text>();
     }
