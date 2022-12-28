@@ -318,7 +318,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &381011987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -674,7 +674,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 108857179827587122, guid: 3b19460acec7fad4baeab3db2a8268e1, type: 3}
+    - {fileID: 609108781, guid: 3b19460acec7fad4baeab3db2a8268e1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3b19460acec7fad4baeab3db2a8268e1, type: 3}
+--- !u!1 &975246099 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1627255014069736, guid: 3b19460acec7fad4baeab3db2a8268e1, type: 3}
+  m_PrefabInstance: {fileID: 975246098}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &975246100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 975246099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4eaed23476e5947db9e4498f8c2cf9c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arCameraBackground: {fileID: 160716579}
 --- !u!850595691 &1013045302
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -784,7 +803,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1532746542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -831,7 +850,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4508671963522723387, guid: 0bc498e6549ec4b4a945bf655f246318, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4508671963522723389, guid: 0bc498e6549ec4b4a945bf655f246318, type: 3}
       propertyPath: m_RootOrder
