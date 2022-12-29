@@ -1,8 +1,5 @@
 <linker>
 	<assembly fullname="Assembly-CSharp" ignoreIfMissing="1">
-		<type fullname="ManomotionManager">
-			<method name="SetManoMotionSmoothingValue"/>
-		</type>
 		<type fullname="onclickvib">
 			<method name="SoundOnClick"/>
 			<method name="VibrateOnClick"/>
