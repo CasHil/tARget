@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class Pointer : MonoBehaviour
 {
-    /*[SerializeField]
-    private FingerInfoGizmo fingerInfoGizmo;*/
-
     public GameObject cylinder;
 
     // Start is called before the first frame update
@@ -14,17 +11,6 @@ public class Pointer : MonoBehaviour
     {
         ManomotionManager.Instance.ShouldCalculateSkeleton3D(true);
         cylinder = GameObject.Find("Cylinder");
-        /*if (fingerInfoGizmo == null)
-        {
-            try
-            {
-                fingerInfoGizmo = GameObject.Find("TryOnManager").GetComponent<FingerInfoGizmo>();
-            }
-            catch
-            {
-                Debug.Log("Failed to find TryOnManager");
-            }
-        }*/
     }
 
     // Update is called once per frame
