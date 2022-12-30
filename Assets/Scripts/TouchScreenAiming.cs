@@ -23,8 +23,8 @@ public class TouchScreenAiming : MonoBehaviour
         }
         else
         {   
-            Debug.Log("Touch!");
-            RaycastHit hit;
+            //Debug.Log("Touch!");
+            //RaycastHit hit;
             Ray ray = arCam.ScreenPointToRay(Input.GetTouch(0).position);
             GetComponent<instantiateProjectile>().Fire(arCam.transform.position, ray.direction);
         }
