@@ -5,7 +5,6 @@ using UnityEngine;
 public class destroyOnHit : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other) {
-        gameObject.GetComponent<AudioSource>().Play();
         Destroy(gameObject);
     }
 }
