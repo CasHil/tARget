@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Pointer : MonoBehaviour
 {
-    public GameObject cylinder;
+    private GameObject cylinder;
 
     // Start is called before the first frame update
     private void Start()
     {
         ManomotionManager.Instance.ShouldCalculateSkeleton3D(true);
-        cylinder = GameObject.Find("Cylinder");
+        cylinder = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
     }
 
     // Update is called once per frame
@@ -24,8 +24,8 @@ public class Pointer : MonoBehaviour
         Vector3 endJoint = CalculateNewPositionFromJoint(joints[7]);
 
         Vector3 aimDirection = endJoint - startJoint;
-        Vector3 position = startJoint + aimDirection / 2.0f;
-        Vector3 scale = new Vector3(0.02f, aimDirection.magnitude / 2.0f, 0.02f);
+        Vector3 position = startJoint + aimDirection * 2.0f;
+        Vector3 scale = new Vector3(0.02f, aimDirection.magnitude * 2.0f, 0.02f);
 
         /*
         Debug.Log("Start joint: " + startJoint);

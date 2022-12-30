@@ -7,7 +7,6 @@ using UnityEngine.UI;
 /// </summary>
 public class SkeletonManager : MonoBehaviour
 {
-    
     #region Singleton
 
     /// <summary>
@@ -54,7 +53,7 @@ public class SkeletonManager : MonoBehaviour
     [SerializeField]
     private Material[] jointsMaterial;
 
-    ///Use this to make the depth values smaler to fit the depth of the hand. 
+    ///Use this to make the depth values smaler to fit the depth of the hand.
     private int depthDivider = 10;
 
     /// The number of Joints the skeleton is made of.
@@ -63,7 +62,7 @@ public class SkeletonManager : MonoBehaviour
     /// <summary>
     /// Used to set the current hand detected by the camera.
     /// </summary>
-    bool isRightHand = false;
+    private bool isRightHand = false;
 
     private GameObject skeletonParent;
 
@@ -74,11 +73,6 @@ public class SkeletonManager : MonoBehaviour
 
     private void Inititialize()
     {
-        for (int i = 0; i < jointPrefab.Length; i++)
-        {
-            jointPrefab[i] = Instantiate(jointPrefab[i]);
-        }
-
         CreateSkeletonParent();
 
         SkeletonModel(0, 1);
@@ -161,7 +155,6 @@ public class SkeletonManager : MonoBehaviour
         UpdateJointPositions();
         LeftOrRightHand();
         UpdateJointorientation();
-
     }
 
     /// <summary>
@@ -182,7 +175,7 @@ public class SkeletonManager : MonoBehaviour
     /// Sets the isRightHand hand bool to true or false with inforamtion from the gesture info
     /// </summary>
     private void LeftOrRightHand()
-    {      
+    {
         if (ManomotionManager.Instance.Hand_infos[0].hand_info.gesture_info.is_right == 1)
         {
             isRightHand = true;
@@ -209,12 +202,6 @@ public class SkeletonManager : MonoBehaviour
                 if (!isRightHand)
                 {
                     yRotation = radianToDegrees((3.14f + trackingInfo.skeleton.orientation_joints[i].y));
-                }
-
-                //Correct the joint orientation if right hand is used with front facing orienations
-                if (ManomotionManager.Instance.Hand_infos[0].hand_info.gesture_info.left_right_hand == LeftOrRightHand.RIGHT_HAND && (int)ManomotionManager.Instance.Manomotion_Session.orientation > 6)
-                {
-                    yRotation = radianToDegrees((3.14f + skeletonInfo.orientation_joints[i].y));
                 }
 
                 switch (ManomotionManager.Instance.Hand_infos[0].hand_info.gesture_info.hand_side)
@@ -268,19 +255,22 @@ public class SkeletonManager : MonoBehaviour
                 {
                     case HandSide.None:
                         break;
+
                     case HandSide.Backside:
                         jointDepthValue = -trackingInfo.skeleton.joints[i].z / depthDivider;
                         break;
+
                     case HandSide.Palmside:
                         jointDepthValue = trackingInfo.skeleton.joints[i].z / depthDivider;
                         break;
+
                     default:
                         break;
                 }
 
                 Vector3 newPosition3d = ManoUtils.Instance.CalculateNewPositionSkeletonJointDepth(new Vector3(trackingInfo.skeleton.joints[i].x, trackingInfo.skeleton.joints[i].y, trackingInfo.skeleton.joints[i].z), depthEstimation);
 
-                _listOfJoints[i].transform.position = newPosition3d;       
+                _listOfJoints[i].transform.position = newPosition3d;
             }
         }
         else

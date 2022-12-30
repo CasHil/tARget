@@ -358,8 +358,8 @@ public class ManomotionManager : ManomotionBase
     {
         manomotion_session = new Session();
         manomotion_session.orientation = ManoUtils.Instance.currentOrientation;
-        manomotion_session.smoothing_controller = 0.5f;
         manomotion_session.add_on = AddOn.ARFoundation;
+        manomotion_session.smoothing_controller = 0.5f;
         manomotion_session.gesture_smoothing_controller = 0.65f;
         manomotion_session.enabled_features.gestures = 0;
         manomotion_session.enabled_features.skeleton_3d = 0;
@@ -440,13 +440,9 @@ public class ManomotionManager : ManomotionBase
 
     protected void Update()
     {
-        try
+        if (_initialized)
         {
             CalculateFPSAndProcessingTime();
-        }
-        catch
-        {
-            Debug.Log("Cant get camera information");
         }
     }
 
@@ -455,43 +451,8 @@ public class ManomotionManager : ManomotionBase
     /// </summary>
     protected void HandleOrientationChanged()
     {
-        try
-        {
-            manomotion_session.orientation = ManoUtils.Instance.currentOrientation;
-
-            if (input_manager.isFrontFacing && input_manager.isFrontFacingSceneario)
-            {
-                switch (manomotion_session.orientation)
-                {
-                    case SupportedOrientation.PORTRAIT:
-                        manomotion_session.orientation = SupportedOrientation.PORTRAIT_FRONT_FACING;
-                        break;
-
-                    case SupportedOrientation.PORTRAIT_UPSIDE_DOWN:
-                        manomotion_session.orientation = SupportedOrientation.PORTRAIT_UPSIDE_DOWN_FRONT_FACING;
-                        break;
-
-                    case SupportedOrientation.LANDSCAPE_LEFT:
-                        manomotion_session.orientation = SupportedOrientation.LANDSCAPE_LEFT_FRONT_FACING;
-                        break;
-
-                    case SupportedOrientation.LANDSCAPE_RIGHT:
-                        manomotion_session.orientation = SupportedOrientation.LANDSCAPE_RIGHT_FRONT_FACING;
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-
-#if UNITY_STANDALONE
-            backOrFrontText.text = manomotion_session.orientation.ToString();
-#endif
-        }
-        catch
-        {
-            Debug.Log("Can't handle orienation changed");
-        }
+        Debug.Log("orientation changed");
+        manomotion_session.orientation = ManoUtils.Instance.currentOrientation;
     }
 
     /// <summary>
@@ -761,16 +722,28 @@ public class ManomotionManager : ManomotionBase
     /// </summary>
     protected void ProcessFrame()
     {
-        processFrame(ref hand_infos[0].hand_info, ref manomotion_session);
+#if !UNITY_EDITOR
+		processFrame(ref hand_infos[0].hand_info, ref manomotion_session);
+#else
+
+#endif
     }
 
     #endregion update_wrappers
 
     protected override void Init(string serial_key)
     {
-        init(_manoSettings, ref _manoLicense);
-        _initialized = true;
-
+#if !UNITY_EDITOR
+		//_manoLicense =
+        //ManoLicense test_license= new ManoLicense();
+        init(_manoSettings,ref _manoLicense);
+        //_manoLicense.days_left = test_license.days_left;
+		// init(_manoSettings);
+		_initialized = true;
+#else
+        Debug.LogError("Dont run in editor, SDK needs to be deployed to phone");
+        Debug.LogWarning("Dont run in editor, SDK needs to be deployed to phone");
+#endif
         if (OnManoMotionLicenseInitialized != null)
         {
             OnManoMotionLicenseInitialized();
