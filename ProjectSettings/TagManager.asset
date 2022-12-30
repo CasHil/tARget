@@ -6,6 +6,7 @@ TagManager:
   tags:
   - baseSDK
   - projectile
+  - target
   layers:
   - Default
   - TransparentFX

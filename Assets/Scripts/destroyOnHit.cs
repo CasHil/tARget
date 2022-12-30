@@ -5,6 +5,8 @@ using UnityEngine;
 public class destroyOnHit : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other) {
-        Destroy(gameObject);
+        if(other.tag == "target"){
+            Destroy(gameObject);
+        }
     }
 }
