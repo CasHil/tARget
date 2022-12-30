@@ -3,10 +3,6 @@ using UnityEngine;
 using System.Runtime.InteropServices;
 using UnityEngine.UI;
 using System;
-using System.Linq.Expressions;
-using System.Net.Sockets;
-using CameraSystem;
-using TMPro;
 
 #if UNITY_IOS
 using UnityEngine.iOS;
@@ -48,9 +44,6 @@ public class ManomotionManager : ManomotionBase
     /// The information about the Session values, the SDK settings
     protected Session manomotion_session;
 
-    private InputManagerAdjustable input_manager;
-    private TMP_Text backOrFrontText;
-
     /// the width of the images processed
     protected int _width;
 
@@ -87,7 +80,7 @@ public class ManomotionManager : ManomotionBase
 #elif UNITY_ANDROID
     private const string library = "manomotion";
 #else
-    const string library = "manomotion";
+	const string library = "manomotion";
 #endif
 
     [DllImport(library)]
@@ -115,28 +108,39 @@ public class ManomotionManager : ManomotionBase
     /// Stops the SDK from processing.
     public void StopProcessing()
     {
-        stop();
+#if !UNITY_EDITOR
+		stop();
+#endif
     }
 
     /// Sends the resolution values to the SDK.
     protected void SetResolution(int width, int height)
     {
         Debug.Log("Set resolution " + width + "," + height);
+#if !UNITY_EDITOR
+
         setResolution(width, height);
+#endif
     }
 
     /// Gives instruction where frame pixels are stored.
     protected void SetFrameArray(Color32[] pixels)
     {
         //Debug.Log("Called setFrameArray with " + pixels.Length);
+#if !UNITY_EDITOR
         setFrameArray(pixels);
+
+#endif
     }
 
     /// Gives instruction where frame pixels are stored.
     protected void SetMRFrameArray(Color32[] pixels)
     {
         Debug.Log("Called setMRFrameArray with " + pixels.Length);
+#if !UNITY_EDITOR
         setMRFrameArray(pixels);
+
+#endif
     }
 
     #endregion init_wrappers
@@ -258,8 +262,6 @@ public class ManomotionManager : ManomotionBase
         {
             instance = this;
             ManoUtils.OnOrientationChanged += HandleOrientationChanged;
-
-            InputManagerBaseClass.OnChangeCamera += HandleOrientationChanged;
             InputManagerBaseClass.OnAddonSet += HandleAddOnSet;
             InputManagerPhoneCamera.OnFrameInitialized += HandleManoMotionFrameInitialized;
             InputManagerPhoneCamera.OnFrameUpdated += HandleNewFrame;
@@ -270,8 +272,6 @@ public class ManomotionManager : ManomotionBase
             this.gameObject.SetActive(false);
             Debug.LogWarning("More than 1 Manomotionmanager in scene");
         }
-
-        InstantiateSession();
     }
 
     /// <summary>
@@ -300,16 +300,16 @@ public class ManomotionManager : ManomotionBase
     private void HandleNewFrame(ManoMotionFrame newFrame)
     {
         GetCameraFramePixelColors(newFrame);
-        UpdateTexturesWithNewInfo(newFrame);
+        UpdateTexturesWithNewInfo();
     }
 
     protected void Start()
     {
         SetManoMotionSettings(ImageFormat.BGRA_FORMAT, _licenseKey);
+        InstantiateSession();
         InstantiateHandInfos();
         InitiateLibrary();
         SetUnityConditions();
-        input_manager = GetComponent<InputManagerAdjustable>();
     }
 
     /// <summary>
@@ -346,7 +346,7 @@ public class ManomotionManager : ManomotionBase
         framePixelColors = new Color32[_width * height];
         SetFrameArray(framePixelColors);
 
-        visualization_info.occlusion_rgb = new Texture2D(_width, _height);
+        visualization_info.occlussion_rgb = new Texture2D(_width, _height);
         MRframePixelColors = new Color32[_width * height];
         SetMRFrameArray(MRframePixelColors);
     }
@@ -358,18 +358,15 @@ public class ManomotionManager : ManomotionBase
     {
         manomotion_session = new Session();
         manomotion_session.orientation = ManoUtils.Instance.currentOrientation;
-        manomotion_session.add_on = AddOn.DEFAULT;
         manomotion_session.smoothing_controller = 0.5f;
+        manomotion_session.add_on = AddOn.ARFoundation;
         manomotion_session.gesture_smoothing_controller = 0.65f;
-        manomotion_session.enabled_features.gestures = 1;
+        manomotion_session.enabled_features.gestures = 0;
         manomotion_session.enabled_features.skeleton_3d = 0;
         manomotion_session.enabled_features.fast_mode = 0;
         manomotion_session.enabled_features.wrist_info = 0;
         manomotion_session.enabled_features.finger_info = 0;
         manomotion_session.enabled_features.contour = 0;
-#if UNITY_STANDALONE
-        manomotion_session.enabled_features.two_hands = 0;
-#endif
     }
 
     /// <summary>
@@ -406,7 +403,7 @@ public class ManomotionManager : ManomotionBase
     {
         visualization_info = new VisualizationInfo();
         visualization_info.rgb_image = new Texture2D(_width, _height);
-        visualization_info.occlusion_rgb = new Texture2D(_width, _height);
+        visualization_info.occlussion_rgb = new Texture2D(_width, _height);
     }
 
     /// <summary>
@@ -435,7 +432,6 @@ public class ManomotionManager : ManomotionBase
     {
         Application.targetFrameRate = 60;
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
-        backOrFrontText = GameObject.Find("BackOrFrontMode").GetComponent<TMP_Text>();
     }
 
     #endregion Awake/Start
@@ -446,10 +442,7 @@ public class ManomotionManager : ManomotionBase
     {
         try
         {
-            if (_initialized)
-            {
-                CalculateFPSAndProcessingTime();
-            }
+            CalculateFPSAndProcessingTime();
         }
         catch
         {
@@ -504,13 +497,13 @@ public class ManomotionManager : ManomotionBase
     /// <summary>
     /// Updates the RGB Frame of Visualization Info with the pixels captured from the camera.
     /// </summary>
-    protected void UpdateTexturesWithNewInfo(ManoMotionFrame newFrame)
+    protected override void UpdateTexturesWithNewInfo()
     {
         if (framePixelColors.Length > 255)
         {
             if (visualization_info.rgb_image.width * visualization_info.rgb_image.height == framePixelColors.Length)
             {
-                visualization_info.rgb_image = newFrame.texture;
+                visualization_info.rgb_image.SetPixels32(framePixelColors);
                 visualization_info.rgb_image.Apply();
                 ProcessManomotion();
 
@@ -524,14 +517,14 @@ public class ManomotionManager : ManomotionBase
                 Debug.LogErrorFormat("UpdateTexturesWithNewInfo error rgb_image width {0} height{1} framepixelcolors length {2}", visualization_info.rgb_image.width, visualization_info.rgb_image.height, framePixelColors.Length);
             }
 
-            if (visualization_info.occlusion_rgb.width * visualization_info.occlusion_rgb.height == MRframePixelColors.Length)
+            if (visualization_info.occlussion_rgb.width * visualization_info.occlussion_rgb.height == MRframePixelColors.Length)
             {
-                visualization_info.occlusion_rgb.SetPixels32(MRframePixelColors);
-                visualization_info.occlusion_rgb.Apply();
+                visualization_info.occlussion_rgb.SetPixels32(MRframePixelColors);
+                visualization_info.occlussion_rgb.Apply();
             }
             else
             {
-                Debug.LogErrorFormat("UpdateTexturesWithNewInfo error MRFrame width {0} height{1} MRframepixelcolors length {2}", visualization_info.occlusion_rgb.width, visualization_info.occlusion_rgb.height, MRframePixelColors.Length);
+                Debug.LogErrorFormat("UpdateTexturesWithNewInfo error MRFrame width {0} height{1} MRframepixelcolors length {2}", visualization_info.rgb_image.width, visualization_info.rgb_image.height, framePixelColors.Length);
             }
         }
         else
@@ -718,6 +711,9 @@ public class ManomotionManager : ManomotionBase
         }
     }
 
+    private int minIndex = 0;
+    private int maxIndex = 5;
+
     /// <summary>
     /// Toggle wich finger do use for the finger information.
     /// 0 = off
@@ -730,9 +726,6 @@ public class ManomotionManager : ManomotionBase
     /// <param name="index">int between 0 and 5, 0 is off and 1-5 is the different fingers</param>
     public void ToggleFingerInfoFinger(int index)
     {
-        int minIndex = 0;
-        int maxIndex = 5;
-
         if (index <= maxIndex && index >= minIndex)
         {
             manomotion_session.enabled_features.finger_info = index;
@@ -751,7 +744,7 @@ public class ManomotionManager : ManomotionBase
     {
         if (condition)
         {
-            manomotion_session.enabled_features.contour = 1;
+            manomotion_session.enabled_features.contour = 2;
         }
         else
         {
