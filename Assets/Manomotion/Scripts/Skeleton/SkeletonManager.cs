@@ -7,8 +7,8 @@ using UnityEngine.UI;
 /// </summary>
 public class SkeletonManager : MonoBehaviour
 {
-
     #region Singleton
+
     /// <summary>
     /// Creates instance of SkeletonManager
     /// </summary>
@@ -26,13 +26,15 @@ public class SkeletonManager : MonoBehaviour
             Debug.LogWarning("More than 1 SkeletonManager in scene");
         }
     }
-    #endregion
+
+    #endregion Singleton
+
+    private TrackingInfo trackingInfo;
 
     [HideInInspector]
-    ///The list of joints used for visualization
     public List<GameObject> _listOfJoints = new List<GameObject>();
 
-    ///The prefab that will be used for visualization of the joints 
+    ///The prefab that will be used for visualization of the joints
     [SerializeField]
     private GameObject[] jointPrefab;
 
@@ -44,39 +46,58 @@ public class SkeletonManager : MonoBehaviour
 
     ///Skeleton confidence
     private bool hasConfidence;
+
     private float skeletonConfidenceThreshold = 0.0001f;
 
     ///The materials used on the joints / Line renderers
     [SerializeField]
     private Material[] jointsMaterial;
 
+    ///Use this to make the depth values smaler to fit the depth of the hand.
+    private int depthDivider = 10;
+
     /// The number of Joints the skeleton is made of.
     private int jointsLength = 21;
 
-    private SkeletonInfo skeletonInfo;
+    /// <summary>
+    /// Used to set the current hand detected by the camera.
+    /// </summary>
+    private bool isRightHand = false;
+
+    private GameObject skeletonParent;
 
     private void Start()
     {
         Inititialize();
     }
 
-    void Inititialize()
+    private void Inititialize()
     {
-
-        for (int i = 0; i < jointPrefab.Length; i++)
-        {
-            jointPrefab[i] = Instantiate(jointPrefab[i]);
-        }
+        CreateSkeletonParent();
 
         SkeletonModel(0, 1);
 
-        ManomotionManager.OnSkeleton3dActive += SkeletonModel;     
+        ManomotionManager.OnSkeleton3dActive += SkeletonModel;
 
         for (int i = 0; i < jointsMaterial.Length; i++)
         {
             Color tempColor = jointsMaterial[i].color;
             tempColor.a = 0f;
             jointsMaterial[i].color = tempColor;
+        }
+    }
+
+    /// <summary>
+    /// Creates a parent object for the skeleton models. The SkeletonParent will update the rotation as the AR Camera so the joints will be correct even if the device is tilted or rotated.
+    /// </summary>
+    private void CreateSkeletonParent()
+    {
+        skeletonParent = new GameObject();
+        skeletonParent.name = "SkeletonParent";
+
+        for (int i = 0; i < jointPrefab.Length; i++)
+        {
+            jointPrefab[i] = Instantiate(jointPrefab[i], skeletonParent.transform);
         }
     }
 
@@ -104,7 +125,6 @@ public class SkeletonManager : MonoBehaviour
             lineRenderers = (jointPrefab[modelToLoad].GetComponentsInChildren<LineRenderer>());
             ResetLineRenderers();
         }
-
         else
         {
             Debug.LogFormat("Current model have {0} joints, need to have 21 joints", jointPrefab[modelToLoad].transform.childCount);
@@ -126,12 +146,14 @@ public class SkeletonManager : MonoBehaviour
         lineRenderers[1].positionCount = 6;
     }
 
-
-    void Update()
+    private void Update()
     {
-        skeletonInfo = ManomotionManager.Instance.Hand_infos[0].hand_info.tracking_info.skeleton;
-        hasConfidence = skeletonInfo.confidence > skeletonConfidenceThreshold;
+        hasConfidence = ManomotionManager.Instance.Hand_infos[0].hand_info.tracking_info.skeleton.confidence > skeletonConfidenceThreshold;
+        trackingInfo = ManomotionManager.Instance.Hand_infos[0].hand_info.tracking_info;
+        skeletonParent.transform.rotation = Camera.main.transform.rotation;
+
         UpdateJointPositions();
+        LeftOrRightHand();
         UpdateJointorientation();
     }
 
@@ -148,47 +170,60 @@ public class SkeletonManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Value dont update, so at this point orientation only works for one hand, default is right hand.
+    /// Change 0 to 1 to run for left hand.
+    /// Sets the isRightHand hand bool to true or false with inforamtion from the gesture info
+    /// </summary>
+    private void LeftOrRightHand()
+    {
+        if (ManomotionManager.Instance.Hand_infos[0].hand_info.gesture_info.is_right == 1)
+        {
+            isRightHand = true;
+        }
+        else
+        {
+            isRightHand = false;
+        }
+    }
+
+    /// <summary>
     /// Updates the orientation of the joints according to the orientation given by the SDK.
     /// </summary>
     private void UpdateJointorientation()
     {
         if (hasConfidence)
         {
-            for (int i = 0; i < skeletonInfo.orientation_joints.Length; i++)
+            for (int i = 0; i < ManomotionManager.Instance.Hand_infos[0].hand_info.tracking_info.skeleton.orientation_joints.Length; i++)
             {
-                float xRotation = radianToDegrees(skeletonInfo.orientation_joints[i].x);
-                float yRotation = radianToDegrees(skeletonInfo.orientation_joints[i].y);
-                float zRotation = radianToDegrees(skeletonInfo.orientation_joints[i].z);
+                float xRotation = radianToDegrees(trackingInfo.skeleton.orientation_joints[i].x);
+                float zRotation = radianToDegrees(trackingInfo.skeleton.orientation_joints[i].z);
+                float yRotation = radianToDegrees(trackingInfo.skeleton.orientation_joints[i].y);
 
-                //Correct the joint orientation if left hand is used with back facing orienations
-                if (ManomotionManager.Instance.Hand_infos[0].hand_info.gesture_info.left_right_hand == LeftOrRightHand.LEFT_HAND && (int)ManomotionManager.Instance.Manomotion_Session.orientation < 7)
+                if (!isRightHand)
                 {
-                    yRotation = radianToDegrees((3.14f + skeletonInfo.orientation_joints[i].y));
-                }
-
-                //Correct the joint orientation if right hand is used with front facing orienations 
-                if (ManomotionManager.Instance.Hand_infos[0].hand_info.gesture_info.left_right_hand == LeftOrRightHand.RIGHT_HAND && (int)ManomotionManager.Instance.Manomotion_Session.orientation > 6)
-                {
-                    yRotation = radianToDegrees((3.14f + skeletonInfo.orientation_joints[i].y));
+                    yRotation = radianToDegrees((3.14f + trackingInfo.skeleton.orientation_joints[i].y));
                 }
 
                 switch (ManomotionManager.Instance.Hand_infos[0].hand_info.gesture_info.hand_side)
                 {
                     case HandSide.None:
                         break;
+
                     case HandSide.Backside:
                         break;
+
                     case HandSide.Palmside:
                         xRotation = -xRotation;
                         zRotation = -zRotation;
                         break;
+
                     default:
                         break;
                 }
 
                 Vector3 newRotation = new Vector3(xRotation, yRotation, zRotation);
 
-                _listOfJoints[i].transform.eulerAngles = newRotation;
+                _listOfJoints[i].transform.localEulerAngles = newRotation;
             }
         }
     }
@@ -201,7 +236,6 @@ public class SkeletonManager : MonoBehaviour
     {
         if (hasConfidence)
         {
-
             if (jointsMaterial[jointsMaterial.Length - 1].color.a < 1)
             {
                 for (int i = 0; i < jointsMaterial.Length; i++)
@@ -212,16 +246,33 @@ public class SkeletonManager : MonoBehaviour
                 }
             }
 
-            for (int i = 0; i < skeletonInfo.joints.Length; i++)
+            for (int i = 0; i < trackingInfo.skeleton.joints.Length; i++)
             {
-                float depthEstimation = Mathf.Clamp(ManomotionManager.Instance.Hand_infos[0].hand_info.tracking_info.depth_estimation, clampMinDepth, 1);
+                float depthEstimation = Mathf.Clamp(trackingInfo.depth_estimation, clampMinDepth, 1);
+                float jointDepthValue = trackingInfo.skeleton.joints[i].z / depthDivider;
 
-                Vector3 newPosition3d = ManoUtils.Instance.CalculateNewPositionSkeletonPosition(new Vector3(skeletonInfo.joints[i].x, skeletonInfo.joints[i].y, skeletonInfo.joints[i].z), 1.5f);
+                switch (ManomotionManager.Instance.Hand_infos[0].hand_info.gesture_info.hand_side)
+                {
+                    case HandSide.None:
+                        break;
+
+                    case HandSide.Backside:
+                        jointDepthValue = -trackingInfo.skeleton.joints[i].z / depthDivider;
+                        break;
+
+                    case HandSide.Palmside:
+                        jointDepthValue = trackingInfo.skeleton.joints[i].z / depthDivider;
+                        break;
+
+                    default:
+                        break;
+                }
+
+                Vector3 newPosition3d = ManoUtils.Instance.CalculateNewPositionSkeletonJointDepth(new Vector3(trackingInfo.skeleton.joints[i].x, trackingInfo.skeleton.joints[i].y, trackingInfo.skeleton.joints[i].z), depthEstimation);
 
                 _listOfJoints[i].transform.position = newPosition3d;
             }
         }
-
         else
         {
             if (jointsMaterial[0].color.a > 0)
