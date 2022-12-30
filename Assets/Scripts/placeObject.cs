@@ -13,6 +13,7 @@ public class placeObject : MonoBehaviour
 
     Camera arCam;
     GameObject spawnedObject;
+    private bool isSpawned = false;
     void Start()
     {
         spawnedObject = null;
@@ -32,7 +33,7 @@ public class placeObject : MonoBehaviour
         
         if(m_RaycastManager.Raycast(Input.GetTouch(0).position, m_Hits))
         {
-            if(Input.GetTouch(0).phase == TouchPhase.Began && spawnedObject == null)
+            if(Input.GetTouch(0).phase == TouchPhase.Began && isSpawned == false)
             {
                 if (Physics.Raycast(ray, out hit))
                 {
@@ -40,13 +41,14 @@ public class placeObject : MonoBehaviour
                     {
                         spawnedObject = hit.collider.gameObject;
                     }
-                    else
+                    else if(!spawnedObject)
                     {
                         SpawnPrefab(m_Hits[0].pose.position);
+                        isSpawned = true;
                     }
                 }
             }
-            else if(Input.GetTouch(0).phase == TouchPhase.Moved && spawnedObject != null)
+            else if(Input.GetTouch(0).phase == TouchPhase.Moved && isSpawned != null)
             {
                 spawnedObject.transform.position = m_Hits[0].pose.position;
             }
