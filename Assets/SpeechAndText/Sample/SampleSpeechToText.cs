@@ -60,17 +60,7 @@ public class SampleSpeechToText : MonoBehaviour
         loading.SetActive(false);
 #endif
     }
-    public void OnClickSpeak()
-    {
-        TextToSpeech.Instance.StartSpeak(inputText.text);
-    }
-
-    /// <summary>
-    /// </summary>
-    public void  OnClickStopSpeak()
-    {
-        TextToSpeech.Instance.StopSpeak();
-    }
+    
 
     /// <summary>
     /// </summary>
@@ -81,7 +71,7 @@ public class SampleSpeechToText : MonoBehaviour
         txtPitch.text = "Pitch: " + pitch;
         txtRate.text = "Rate: " + rate;
         SpeechToText.Instance.Setting(code);
-        TextToSpeech.Instance.Setting(code, pitch, rate);
+        
     }
 
     /// <summary>

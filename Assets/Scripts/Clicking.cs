@@ -13,24 +13,25 @@ public class Clicking : MonoBehaviour
     [SerializeField]
 
     public Text UiText;
-    public Button triggerButton;
+   // public Button triggerButton;
     
 
 void Start(){
     SetUp(LANG_CODE);
-    
+    StartListening();
     SpeechToText.Instance.onPartialResultsCallback = onPartialSpeechResult;
 
 
 }
    
 
-void Update(){
+/*void Update(){
     Button btn = triggerButton.GetComponent<Button>();
     btn.onClick.AddListener(StartListening);
    
 
-}
+}*/
+
 void SetUp(string code) {
    // TextToSpeech.Instance.Setting(code,1,1);
     SpeechToText.Instance.Setting(code);
@@ -44,7 +45,7 @@ public void StartListening() {
 public void StopListening(){
     SpeechToText.Instance.StopRecording();
 }
-void OnFinalSpeechResult(string result)
+/*void OnFinalSpeechResult(string result)
    {
         UiText.text = result;
         if (result.Contains("Jump") || result.Contains("jump"))
@@ -52,13 +53,13 @@ void OnFinalSpeechResult(string result)
               UiText.text = "yes";
         }
     }
-
+*/
 void onPartialSpeechResult(string result)
    {
-        UiText.text = result;
-         if (result.Contains("Jump") || result.Contains("jump"))
+        Debug.Log(result);
+         if (result.Contains("Shoot") || result.Contains("shoot"))
         {
-              UiText.text = "DEEBUG";
+              Debug.Log("DEBUG");
         }
         
        
