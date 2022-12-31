@@ -35,12 +35,13 @@ public class Pointer : MonoBehaviour
         Debug.Log("Scale: " + scale);
         Debug.Log("======================= " + aimDirection);
         */
-        Destroy(cylinder.GetComponent<Rigidbody>());
+        
+        Destroy(cylinder.GetComponent<Rigidbody>()); //The missile gots destroyed by the cylinders rigidbody so I took it away lol
         cylinder.transform.position = position;
         cylinder.transform.localScale = scale;
         cylinder.transform.up = aimDirection;
         
-
+        // This is for testing, we can remove it when we don't want to fire by the touchscreen. 
         if(Input.touchCount == 0)
         {
             return;
