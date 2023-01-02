@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using System;
 using TextSpeech;
+using System.Linq;
 public class VoiceAim : MonoBehaviour
 {
 
@@ -23,7 +24,7 @@ public class VoiceAim : MonoBehaviour
 
     }
 
-   
+
     void SetUp(string code) {
    // TextToSpeech.Instance.Setting(code,1,1);
     SpeechToText.Instance.Setting(code);
@@ -35,13 +36,18 @@ public class VoiceAim : MonoBehaviour
 }
    public void onPartialSpeechResult(string result)
    {
-        Debug.Log(result);
-         if (result.Contains("Shoot") || result.Contains("shoot"))
+    List<string> ResultList = result.Split(' ').ToList();
+    string last = ResultList[ResultList.Count - 1];
+    Debug.Log(pos);
+         if (last.Contains("shoot"))
         {
+
               RaycastHit hit;
               Ray ray = arCam.ScreenPointToRay(pos);
               GetComponent<instantiateProjectile>().Fire(arCam.transform.position, ray.direction);
               Debug.Log("BOOM");
+            
+        
         }
         
         
