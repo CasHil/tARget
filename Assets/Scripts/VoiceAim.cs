@@ -31,6 +31,9 @@ public class VoiceAim : MonoBehaviour
     public void StartListening() {
     SpeechToText.Instance.StartRecording();
     }
+    public void StopListening(){
+        SpeechToText.Instance.StopRecording();
+    }
 
    public void onPartialSpeechResult(string result)
    {
@@ -39,7 +42,9 @@ public class VoiceAim : MonoBehaviour
     Debug.Log(pos);
          if (last.Contains("shoot"))
         {
-              GetComponent<Pointer>().Shoot();
+            StopListening();
+            GetComponent<Pointer>().Shoot();
+                         
         }
     }
 }

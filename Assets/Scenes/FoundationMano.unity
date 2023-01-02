@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18300083, g: 0.22636762, b: 0.29329672, a: 1}
+  m_IndirectSpecularColor: {r: 0.18301758, g: 0.22639436, b: 0.29335847, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3013,7 +3013,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   laserAim: 0
   skeletonRender: 0
-  touchScreenAiming: 0
+  touchScreenAiming: 1
   laserRed: {fileID: 2100000, guid: 1717aa8bbbe644e3f8332c33e56b5e0c, type: 2}
   aimDirection: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
