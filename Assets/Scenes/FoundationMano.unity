@@ -2971,7 +2971,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectile: {fileID: 2856370803062192637, guid: 2bb302980ec10406e8af8b45cc71c116, type: 3}
-  speed: 20
+  speed: 1
 --- !u!4 &298324073
 Transform:
   m_ObjectHideFlags: 0
@@ -3011,6 +3011,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be719fd7f7566974fb1716e0b800ccc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turret: {fileID: 4653002963741376248, guid: d2eab5c40bb0347b28c7317565daa16e, type: 3}
 --- !u!1 &315927368 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1149642324517906, guid: eae1e916fd01945f992e8689538e75d7, type: 3}
