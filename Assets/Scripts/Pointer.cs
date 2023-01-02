@@ -62,6 +62,11 @@ public class Pointer : MonoBehaviour
         }
         }
     }
+
+    public void Shoot(){
+        GetComponent<instantiateProjectile>().Fire(position, aimDirection);
+    }
+
     private Vector3 CalculateNewPositionFromJoint(Vector3 joint)
     {
         return ManoUtils.Instance.CalculateNewPosition(new Vector3(joint.x, joint.y, joint.z), 0);

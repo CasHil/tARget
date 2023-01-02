@@ -20,20 +20,18 @@ public class VoiceAim : MonoBehaviour
         SetUp(LANG_CODE);
         StartListening();
         SpeechToText.Instance.onPartialResultsCallback = onPartialSpeechResult;
-
-
     }
 
 
     void SetUp(string code) {
    // TextToSpeech.Instance.Setting(code,1,1);
     SpeechToText.Instance.Setting(code);
-
     }
+
     public void StartListening() {
     SpeechToText.Instance.StartRecording();
-    
-}
+    }
+
    public void onPartialSpeechResult(string result)
    {
     List<string> ResultList = result.Split(' ').ToList();
@@ -41,12 +39,8 @@ public class VoiceAim : MonoBehaviour
     Debug.Log(pos);
          if (last.Contains("shoot"))
         {
-            GetComponent<instantiateProjectile>().Fire(GetComponent<Pointer>().position, GetComponent<Pointer>().aimDirection);
-            Debug.Log("BOOM");
+              GetComponent<Pointer>().Shoot();
         }
-        
-        
-       
     }
 }
 
