@@ -7,7 +7,11 @@ public class Pointer : MonoBehaviour
     private GameObject cylinder;
     public bool laserAim;
     public bool skeletonRender;
+    public bool touchScreenAiming;
     public Material laserRed;
+    [SerializeField]
+    public Vector3 aimDirection;
+    public Vector3 position;
     // Start is called before the first frame update
     private void Start()
     {
@@ -31,7 +35,6 @@ public class Pointer : MonoBehaviour
         Vector3 position = startJoint + aimDirection * 2.0f;
         Vector3 scale = new Vector3(0.02f, aimDirection.magnitude * 2.0f, 0.02f);
 
-
         /*
         Debug.Log("Start joint: " + startJoint);
         Debug.Log("End joint: " + endJoint);
@@ -46,14 +49,17 @@ public class Pointer : MonoBehaviour
         cylinder.transform.localScale = scale;
         cylinder.transform.up = aimDirection;
         }
-        // This is for testing, we can remove it when we don't want to fire by the touchscreen. 
-        if(Input.touchCount == 0)
+        // This is for testing, we can remove it when we don't want to fire by the touchscreen.
+        if(touchScreenAiming == true){
+            GetComponent<VoiceAim>().enabled = false;
+            if(Input.touchCount == 0)
         {
             return;
         }
         else
         {   
             GetComponent<instantiateProjectile>().Fire(position, aimDirection);
+        }
         }
     }
     private Vector3 CalculateNewPositionFromJoint(Vector3 joint)

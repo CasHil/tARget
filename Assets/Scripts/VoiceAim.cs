@@ -41,13 +41,8 @@ public class VoiceAim : MonoBehaviour
     Debug.Log(pos);
          if (last.Contains("shoot"))
         {
-
-              RaycastHit hit;
-              Ray ray = arCam.ScreenPointToRay(pos);
-              GetComponent<instantiateProjectile>().Fire(arCam.transform.position, ray.direction);
-              Debug.Log("BOOM");
-            
-        
+            GetComponent<instantiateProjectile>().Fire(GetComponent<Pointer>().position, GetComponent<Pointer>().aimDirection);
+            Debug.Log("BOOM");
         }
         
         
