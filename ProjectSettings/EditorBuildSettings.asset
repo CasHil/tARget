@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FoundationMano.unity
     guid: 944ffd1968b5c4dbd96be553fb959219
+  - enabled: 0
+    path: Assets/Scenes/main.unity
+    guid: 38678000eeac840aeb4f2d3dab5f660a
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: e3acdf6c733220b4299a8a2897d8d36b, type: 2}
     UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: 2e7c230642d3f43ef8183541a097729b, type: 2}
