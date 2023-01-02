@@ -15,7 +15,7 @@ public class Pointer : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        ManomotionManager.Instance.ShouldCalculateSkeleton3D(true);
+        ManomotionManager.Instance.ShouldCalculateSkeleton3D(skeletonRender);
         cylinder = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
         Destroy(cylinder.GetComponent<Rigidbody>()); //The missile gots destroyed by the cylinders rigidbody so I took it away lol
         cylinder.GetComponent<Renderer>().material = laserRed;
@@ -31,8 +31,8 @@ public class Pointer : MonoBehaviour
         Vector3 startJoint = CalculateNewPositionFromJoint(joints[5]);
         Vector3 endJoint = CalculateNewPositionFromJoint(joints[7]);
 
-        Vector3 aimDirection = endJoint - startJoint;
-        Vector3 position = startJoint + aimDirection * 2.0f;
+        aimDirection = endJoint - startJoint;
+        position = startJoint + aimDirection; //* 2.0f;
         Vector3 scale = new Vector3(0.02f, aimDirection.magnitude * 2.0f, 0.02f);
 
         /*
@@ -49,6 +49,9 @@ public class Pointer : MonoBehaviour
         cylinder.transform.localScale = scale;
         cylinder.transform.up = aimDirection;
         }
+        else{
+            Destroy(cylinder);
+        }
         // This is for testing, we can remove it when we don't want to fire by the touchscreen.
         if(touchScreenAiming == true){
             GetComponent<VoiceAim>().enabled = false;
@@ -58,7 +61,7 @@ public class Pointer : MonoBehaviour
         }
         else
         {   
-            GetComponent<instantiateProjectile>().Fire(position, aimDirection);
+            Shoot();
         }
         }
     }

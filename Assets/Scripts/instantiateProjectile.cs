@@ -24,13 +24,15 @@ public class instantiateProjectile : MonoBehaviour
         Vector3 startJoint = CalculateNewPositionFromJoint(joints[5]);
         Vector3 endJoint = CalculateNewPositionFromJoint(joints[7]);
         Vector3 aimDirection = endJoint - startJoint;
-        Vector3 position = CalculateNewPositionFromJoint(joints[6]);
+        //Vector3 position = CalculateNewPositionFromJoint(joints[6]);
 
         stationaryProjectile.transform.rotation = Quaternion.LookRotation(aimDirection);
         stationaryProjectile.transform.position = CalculateNewPositionFromJoint(joints[6]);
     }
     public void Fire(Vector3 position, Vector3 aimDirection)
         {   
+            //Debug.Log("FIRE");
+            //Debug.Log(!instantiatedProjectile);
             if(!instantiatedProjectile){
             Destroy(stationaryProjectile);
             direction = aimDirection;
@@ -55,6 +57,6 @@ public class instantiateProjectile : MonoBehaviour
     public IEnumerator Wait(float seconds)
         {   
             yield return new WaitForSeconds(seconds);
-           stationaryProjectile = Instantiate(projectile);
+            stationaryProjectile = Instantiate(projectile);
         }
 }
