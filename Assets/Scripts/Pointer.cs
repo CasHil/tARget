@@ -52,6 +52,7 @@ public class Pointer : MonoBehaviour
         else{
             Destroy(cylinder);
         }
+        
         // This is for testing, we can remove it when we don't want to fire by the touchscreen.
         if(touchScreenAiming == true){
             GetComponent<VoiceAim>().enabled = false;
@@ -61,6 +62,7 @@ public class Pointer : MonoBehaviour
         }
         else
         {   
+            GetComponent<VoiceAim>().StopListening();
             Shoot();
         }
         }
