@@ -11,6 +11,7 @@ public class instantiateProjectile : MonoBehaviour
     private GameObject stationaryProjectile;
     private Vector3 direction;
     private Vector3 position;
+    public float projectileFlightTime;
 
     private void Start(){
             stationaryProjectile = Instantiate(projectile, position, Quaternion.LookRotation(direction));
@@ -40,7 +41,7 @@ public class instantiateProjectile : MonoBehaviour
             instantiatedProjectile = Instantiate(projectile, position, Quaternion.LookRotation(direction));
             instantiatedProjectile.GetComponent<Rigidbody>().velocity = transform.TransformDirection(direction).normalized * speed;
             Handheld.Vibrate();
-            Reload(3f);
+            Reload(projectileFlightTime);
             }
         }
     
@@ -58,5 +59,6 @@ public class instantiateProjectile : MonoBehaviour
         {   
             yield return new WaitForSeconds(seconds);
             stationaryProjectile = Instantiate(projectile);
+            GetComponent<VoiceAim>().StartListening();
         }
 }

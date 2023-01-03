@@ -31,16 +31,24 @@ public class VoiceAim : MonoBehaviour
     public void StartListening() {
     SpeechToText.Instance.StartRecording();
     }
+    public void StopListening(){
+        SpeechToText.Instance.StopRecording();
+    }
 
    public void onPartialSpeechResult(string result)
    {
     List<string> ResultList = result.Split(' ').ToList();
     string last = ResultList[ResultList.Count - 1];
     Debug.Log(pos);
-         if (last.Contains("shoot"))
+        if (last.Contains("shoot"))
         {
-              GetComponent<Pointer>().Shoot();
+            StopListening();
+            GetComponent<Pointer>().Shoot();
         }
+   }
+   public IEnumerator Wait(float seconds)
+    {   
+        yield return new WaitForSeconds(seconds);
     }
 }
 
