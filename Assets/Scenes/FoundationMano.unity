@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18301758, g: 0.22639436, b: 0.29335847, a: 1}
+  m_IndirectSpecularColor: {r: 0.18300083, g: 0.22636762, b: 0.29329672, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2971,7 +2971,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectile: {fileID: 2856370803062192637, guid: 2bb302980ec10406e8af8b45cc71c116, type: 3}
-  speed: 1
+  speed: 2
+  projectileFlightTime: 3
 --- !u!4 &298324073
 Transform:
   m_ObjectHideFlags: 0
@@ -3012,7 +3013,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laserAim: 0
-  skeletonRender: 0
   touchScreenAiming: 1
   laserRed: {fileID: 2100000, guid: 1717aa8bbbe644e3f8332c33e56b5e0c, type: 2}
   aimDirection: {x: 0, y: 0, z: 0}
@@ -5445,7 +5445,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &746482339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7320,7 +7320,7 @@ PrefabInstance:
       objectReference: {fileID: 157089619}
     - target: {fileID: 114251843207838166, guid: 3b19460acec7fad4baeab3db2a8268e1, type: 3}
       propertyPath: _licenseKey
-      value: GJHIA-LDCJH-IFRYK-PUUUH
+      value: BQMUL-OLIVW-EWUHH-JADKK
       objectReference: {fileID: 0}
     - target: {fileID: 114656061702543436, guid: 3b19460acec7fad4baeab3db2a8268e1, type: 3}
       propertyPath: statusAnimator
@@ -10629,7 +10629,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1291009250987664, guid: 0f8504ddba966c5459c5954aff90da2d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1412737396818478, guid: 0f8504ddba966c5459c5954aff90da2d, type: 3}
       propertyPath: m_IsActive
@@ -12367,6 +12367,10 @@ PrefabInstance:
     - target: {fileID: 4111831609420844691, guid: 79f57eb7ac9662044893b12e40602b18, type: 3}
       propertyPath: m_Name
       value: ContourGizmo
+      objectReference: {fileID: 0}
+    - target: {fileID: 4111831609420844691, guid: 79f57eb7ac9662044893b12e40602b18, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79f57eb7ac9662044893b12e40602b18, type: 3}
