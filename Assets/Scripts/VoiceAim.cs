@@ -44,7 +44,6 @@ public class VoiceAim : MonoBehaviour
         {
             StopListening();
             GetComponent<Pointer>().Shoot();
-                         
         }
     }
 }

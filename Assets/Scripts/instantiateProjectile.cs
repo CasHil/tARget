@@ -6,6 +6,7 @@ public class instantiateProjectile : MonoBehaviour
 {
     public GameObject projectile;
     public float speed = 20;
+    public float projectileFlightTime;
     private GameObject instantiatedProjectile;
     private GameObject stationaryProjectile;
     private Vector3 direction;
@@ -13,7 +14,7 @@ public class instantiateProjectile : MonoBehaviour
 
     private void Start()
     {
-        stationaryProjectile = Instantiate(projectile, position, Quaternion.LookRotation(direction));
+        stationaryProjectile = Instantiate(projectile);
     }
 
     private void Update()
@@ -22,8 +23,8 @@ public class instantiateProjectile : MonoBehaviour
 
         // Draw a line between joints 5 and 7. See https://imgur.com/a/vdzYDOF or the
         // Manomotion SDK Pro Technical Documentation for which joints 5 and 7 are.
-        Vector3 startJoint = joints[7];
-        Vector3 endJoint = joints[8];
+        Vector3 startJoint = CalculateNewPositionFromJoint(joints[5]);
+        Vector3 endJoint = CalculateNewPositionFromJoint(joints[7]);
         Vector3 aimDirection = endJoint - startJoint;
         Vector3 position = CalculateNewPositionFromJoint(joints[7]);
 
@@ -32,10 +33,17 @@ public class instantiateProjectile : MonoBehaviour
         Debug.Log("tARget: Aim direction: " + aimDirection);
         /*Debug.Log("tARget: Position: " + position);*/
         Debug.Log("tARget: =======================");
+        if (!instantiatedProjectile)
+        {
+            if(!stationaryProjectile)
+            {
+                GetComponent<VoiceAim>().StartListening();
+                stationaryProjectile = Instantiate(projectile);
+            }
+            stationaryProjectile.transform.position = position;
+            stationaryProjectile.transform.forward = aimDirection;
+        }
 
-        stationaryProjectile.transform.position = position;
-        //stationaryProjectile.transform.rotation = Quaternion.LookRotation(aimDirection);
-        stationaryProjectile.transform.forward = aimDirection;
     }
 
     public void Fire(Vector3 position, Vector3 aimDirection)
@@ -47,15 +55,13 @@ public class instantiateProjectile : MonoBehaviour
             //Debug.Log("Position: "+position+" Direction: "+direction+" Rotation: "+Quaternion.LookRotation(direction));
             instantiatedProjectile = Instantiate(projectile, position, Quaternion.LookRotation(direction));
             instantiatedProjectile.GetComponent<Rigidbody>().velocity = transform.TransformDirection(direction).normalized * speed;
-            Handheld.Vibrate();
-            Reload(3f);
+            Reload(projectileFlightTime);
         }
     }
 
     private void Reload(float time)
     {
         Destroy(instantiatedProjectile, time);
-        StartCoroutine(Wait(time));
     }
 
     private Vector3 CalculateNewPositionFromJoint(Vector3 joint)
@@ -70,7 +76,11 @@ public class instantiateProjectile : MonoBehaviour
 
     public IEnumerator Wait(float seconds)
     {
+        Handheld.Vibrate();
         yield return new WaitForSeconds(seconds);
-        stationaryProjectile = Instantiate(projectile);
+        if(!instantiatedProjectile)
+        {
+            stationaryProjectile = Instantiate(projectile);
+        }
     }
 }

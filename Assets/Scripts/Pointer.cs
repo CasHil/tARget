@@ -5,8 +5,7 @@ using UnityEngine;
 public class Pointer : MonoBehaviour
 {
     private GameObject cylinder;
-    public bool laserAim;
-    public bool skeletonRender;
+    public bool laserAim; 
     public bool touchScreenAiming;
     public Material laserRed;
 
@@ -50,6 +49,10 @@ public class Pointer : MonoBehaviour
             cylinder.transform.localScale = scale;
             cylinder.transform.up = aimDirection;
         }
+        else
+        {
+            Destroy(cylinder);
+        }
         // This is for testing, we can remove it when we don't want to fire by the touchscreen.
         if (touchScreenAiming == true)
         {
@@ -59,7 +62,8 @@ public class Pointer : MonoBehaviour
                 return;
             }
             else
-            {
+            {   
+                GetComponent<VoiceAim>().StopListening();
                 GetComponent<instantiateProjectile>().Fire(position, aimDirection);
             }
         }
