@@ -56,6 +56,7 @@ public class instantiateProjectile : MonoBehaviour
             instantiatedProjectile = Instantiate(projectile, position, Quaternion.LookRotation(direction));
             instantiatedProjectile.GetComponent<Rigidbody>().velocity = transform.TransformDirection(direction).normalized * speed;
             Reload(projectileFlightTime);
+            Handheld.Vibrate();
         }
     }
 
