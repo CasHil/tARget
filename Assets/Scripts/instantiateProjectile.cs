@@ -51,6 +51,7 @@ public class instantiateProjectile : MonoBehaviour
         if (!instantiatedProjectile)
         {
             Destroy(stationaryProjectile);
+            GetComponent<AudioSource>().Play();
             direction = aimDirection;
             //Debug.Log("Position: "+position+" Direction: "+direction+" Rotation: "+Quaternion.LookRotation(direction));
             instantiatedProjectile = Instantiate(projectile, position, Quaternion.LookRotation(direction));
