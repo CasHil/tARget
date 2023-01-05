@@ -19,6 +19,7 @@ public class instantiateProjectile : MonoBehaviour
 
     private void Update()
     {
+        
         Vector3[] joints = ManomotionManager.Instance.Hand_infos[0].hand_info.tracking_info.skeleton.joints;
 
         // Draw a line between joints 5 and 7. See https://imgur.com/a/vdzYDOF or the
@@ -40,8 +41,16 @@ public class instantiateProjectile : MonoBehaviour
                 GetComponent<VoiceAim>().StartListening();
                 stationaryProjectile = Instantiate(projectile);
             }
-            stationaryProjectile.transform.position = position;
-            stationaryProjectile.transform.forward = aimDirection;
+            else if(ManomotionManager.Instance.Hand_infos[0].hand_info.gesture_info.mano_class == ManoClass.NO_HAND) 
+            {
+                stationaryProjectile.SetActive(false);
+            }
+            else
+            {
+                stationaryProjectile.SetActive(true);
+                stationaryProjectile.transform.position = position;
+                stationaryProjectile.transform.forward = aimDirection;
+            }
         }
 
     }
@@ -51,19 +60,19 @@ public class instantiateProjectile : MonoBehaviour
         if (!instantiatedProjectile)
         {
             Destroy(stationaryProjectile);
-            GetComponent<AudioSource>().Play();
+            //GetComponent<AudioSource>().Play();
             direction = aimDirection;
             //Debug.Log("Position: "+position+" Direction: "+direction+" Rotation: "+Quaternion.LookRotation(direction));
             instantiatedProjectile = Instantiate(projectile, position, Quaternion.LookRotation(direction));
             instantiatedProjectile.GetComponent<Rigidbody>().velocity = transform.TransformDirection(direction).normalized * speed;
-            Reload(projectileFlightTime);
+            Destroy(instantiatedProjectile, projectileFlightTime);
             Handheld.Vibrate();
         }
     }
 
     private void Reload(float time)
     {
-        Destroy(instantiatedProjectile, time);
+        
     }
 
     private Vector3 CalculateNewPositionFromJoint(Vector3 joint)

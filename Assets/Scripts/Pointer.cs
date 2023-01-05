@@ -32,8 +32,8 @@ public class Pointer : MonoBehaviour
         Vector3 startJoint = CalculateNewPositionFromJoint(joints[5]);
         Vector3 endJoint = CalculateNewPositionFromJoint(joints[7]);
 
-        Vector3 aimDirection = endJoint - startJoint;
-        Vector3 position = startJoint + aimDirection * 2.0f;
+        aimDirection = endJoint - startJoint;
+        position = startJoint + aimDirection * 2.0f;
         Vector3 scale = new Vector3(0.02f, aimDirection.magnitude * 2.0f, 0.02f);
 
         /*Debug.Log("Start joint: " + startJoint);
@@ -64,7 +64,7 @@ public class Pointer : MonoBehaviour
             else
             {   
                 GetComponent<VoiceAim>().StopListening();
-                GetComponent<instantiateProjectile>().Fire(position, aimDirection);
+                Shoot();
             }
         }
     }
