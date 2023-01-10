@@ -68,9 +68,6 @@ public class FingerInfoGizmo : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        fingerInforamtionPrefab = Instantiate(fingerInforamtionPrefab);
-        fingerInforamtionPrefab.name = "Finger";
-
         if (leftFingerPoint3D == null || rightFingerPoint3D == null)
         {
             leftFingerPoint3D = GameObject.Find("LeftFingerSphere");

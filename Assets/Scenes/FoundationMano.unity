@@ -3025,7 +3025,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laserAim: 0
-  touchScreenAiming: 0
+  touchScreenAiming: 1
+  dualMode: 1
   laserRed: {fileID: 2100000, guid: 1717aa8bbbe644e3f8332c33e56b5e0c, type: 2}
   aimDirection: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
@@ -7744,7 +7745,7 @@ PrefabInstance:
       objectReference: {fileID: 157089619}
     - target: {fileID: 114251843207838166, guid: 3b19460acec7fad4baeab3db2a8268e1, type: 3}
       propertyPath: _licenseKey
-      value: BQMUL-OLIVW-EWUHH-JADKK
+      value: KBSOT-OJPTM-RHHWJ-FUTSQ
       objectReference: {fileID: 0}
     - target: {fileID: 114656061702543436, guid: 3b19460acec7fad4baeab3db2a8268e1, type: 3}
       propertyPath: statusAnimator
