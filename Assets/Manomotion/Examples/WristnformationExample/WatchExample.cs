@@ -97,7 +97,7 @@ public class WatchExample : MonoBehaviour
 
         else
         {
-            DontShowWatch();
+            //DontShowWatch();
         }
     }
 

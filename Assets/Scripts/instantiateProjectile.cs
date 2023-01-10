@@ -11,7 +11,7 @@ public class instantiateProjectile : MonoBehaviour
     private GameObject stationaryProjectile;
     private Vector3 direction;
     private Vector3 position;
-
+    
     private void Start()
     {
         stationaryProjectile = Instantiate(projectile);
