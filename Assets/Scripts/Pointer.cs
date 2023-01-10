@@ -7,6 +7,7 @@ public class Pointer : MonoBehaviour
     private GameObject cylinder;
     public bool laserAim; 
     public bool touchScreenAiming;
+    public bool dualMode;
     public Material laserRed;
 
     [SerializeField]
@@ -55,8 +56,11 @@ public class Pointer : MonoBehaviour
         }
         // This is for testing, we can remove it when we don't want to fire by the touchscreen.
         if (touchScreenAiming == true)
-        {
-            GetComponent<VoiceAim>().enabled = false;
+        {   
+            if(!dualMode)
+            {
+                GetComponent<VoiceAim>().enabled = false; 
+            }
             if (Input.touchCount == 0)
             {
                 return;
