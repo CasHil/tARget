@@ -12,12 +12,6 @@ public class WatchExample : MonoBehaviour
     public WristInfoGizmo wristInfoGizmo;
 
     /// <summary>
-    /// Warning text that tells the user to move the hand further away when hand is to close
-    /// </summary>
-    [SerializeField]
-    private TMP_Text depthWarningText;
-
-    /// <summary>
     /// If the Manomotion depth value is greater than this the ring will show, otherwise warning will shown.
     /// </summary>
     private float depthWarning = 0f;
@@ -60,8 +54,6 @@ public class WatchExample : MonoBehaviour
 
     private void Start()
     {
-        ///Sets the screen orienation to portrait mode.
-        Screen.orientation = ScreenOrientation.Portrait;
 
         if (wristInfoGizmo == null)
         {
@@ -80,8 +72,8 @@ public class WatchExample : MonoBehaviour
     private void SetManoMotionSettings()
     {
         ManomotionManager.Instance.ShouldRunWristInfo(true);
-        ManomotionManager.Instance.ShouldCalculateGestures(true);
-        GameObject.Find("Wrist").SetActive(false);
+        //ManomotionManager.Instance.ShouldCalculateGestures(true);
+        //GameObject.Find("Wrist").SetActive(false);
     }
 
     bool isWristRemoved = false;
@@ -89,7 +81,7 @@ public class WatchExample : MonoBehaviour
     void Update()
     {
         ///Updates the gestureinfo
-        gestureInfo = ManomotionManager.Instance.Hand_infos[0].hand_info.gesture_info;
+        //gestureInfo = ManomotionManager.Instance.Hand_infos[0].hand_info.gesture_info;
 
         if (!isWristRemoved)
         {
@@ -100,12 +92,12 @@ public class WatchExample : MonoBehaviour
         if (gestureInfo.mano_class != ManoClass.NO_HAND)
         {
             wristInfoGizmo.ShowWristInformation();
-            ShowWatch();
+            //ShowWatch();
         }
 
         else
         {
-            DontShowWatch();
+            //DontShowWatch();
         }
     }
 
@@ -123,6 +115,7 @@ public class WatchExample : MonoBehaviour
         ///Scale the ring with the width from the 2 finger points and multiplyed by a scaleModifier.
         transform.localScale = new Vector3(wristInfoGizmo.WidthBetweenWristPoints * scaleModifier, wristInfoGizmo.WidthBetweenWristPoints * scaleModifier, wristInfoGizmo.WidthBetweenWristPoints * scaleModifier);
 
+        /*
         ///When Palm is showing the scale gets inverted to show the back of the ring.
         if (gestureInfo.hand_side == palm)
         {
@@ -133,7 +126,8 @@ public class WatchExample : MonoBehaviour
         {
             ActivateWatchParts(isFront);
         }
-
+        */
+        
         ///Disables the outline image.
         outlineImage.SetActive(false);
     }

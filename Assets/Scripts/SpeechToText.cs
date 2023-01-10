@@ -8,9 +8,10 @@ namespace TextSpeech
 {
     public class SpeechToText : MonoBehaviour
     {
-
         #region Init
+
         private static SpeechToText _instance;
+
         public static SpeechToText Instance
         {
             get
@@ -24,20 +25,19 @@ namespace TextSpeech
                 return _instance;
             }
         }
+
         public bool isShowPopupAndroid = true;
 
-
-        void Awake()
+        private void Awake()
         {
             _instance = this;
         }
-        #endregion
+
+        #endregion Init
 
         public Action<string> onResultCallback;
         public Action<string> onPartialResultsCallback;
-    /** Called when partial recognition results are available. */
-  
-
+        /** Called when partial recognition results are available. */
 
         public void Setting(string _language)
         {
@@ -49,6 +49,7 @@ namespace TextSpeech
         javaUnityClass.CallStatic("SettingSpeechToText", _language);
 #endif
         }
+
         public void StartRecording(string _message = "")
         {
 #if UNITY_EDITOR
@@ -67,6 +68,7 @@ namespace TextSpeech
         }
 #endif
         }
+
         public void StopRecording()
         {
 #if UNITY_EDITOR
@@ -95,24 +97,32 @@ namespace TextSpeech
         public void onMessage(string _message)
         {
         }
+
         public void onErrorMessage(string _message)
         {
             Debug.Log(_message);
         }
+
         /** Called when recognition results are ready. */
+
         public void onResults(string _results)
         {
             if (onResultCallback != null)
                 onResultCallback(_results);
         }
+
         public void onPartialResults(string _params)
         {
-        if (onPartialResultsCallback != null)
-            onPartialResultsCallback(_params);
+            if (onPartialResultsCallback != null)
+                onPartialResultsCallback(_params);
         }
+
         #region Android STT custom
+
 #if UNITY_ANDROID
+
         #region Error Code
+
         /** Network operation timed out. */
         public const int ERROR_NETWORK_TIMEOUT = 1;
         /** Other network related errors. */
@@ -131,8 +141,9 @@ namespace TextSpeech
         public const int ERROR_RECOGNIZER_BUSY = 8;
         /** Insufficient permissions */
         public const int ERROR_INSUFFICIENT_PERMISSIONS = 9;
+
         /////////////////////
-        String getErrorText(int errorCode)
+        private String getErrorText(int errorCode)
         {
             String message;
             switch (errorCode)
@@ -140,57 +151,71 @@ namespace TextSpeech
                 case ERROR_AUDIO:
                     message = "Audio recording error";
                     break;
+
                 case ERROR_CLIENT:
                     message = "Client side error";
                     break;
+
                 case ERROR_INSUFFICIENT_PERMISSIONS:
                     message = "Insufficient permissions";
                     break;
+
                 case ERROR_NETWORK:
                     message = "Network error";
                     break;
+
                 case ERROR_NETWORK_TIMEOUT:
                     message = "Network timeout";
                     break;
+
                 case ERROR_NO_MATCH:
                     message = "No match";
                     break;
+
                 case ERROR_RECOGNIZER_BUSY:
                     message = "RecognitionService busy";
                     break;
+
                 case ERROR_SERVER:
                     message = "error from server";
                     break;
+
                 case ERROR_SPEECH_TIMEOUT:
                     message = "No speech input";
                     break;
+
                 default:
                     message = "Didn't understand, please try again.";
                     break;
             }
             return message;
         }
-        #endregion
+
+        #endregion Error Code
 
         public Action<string> onReadyForSpeechCallback;
         public Action onEndOfSpeechCallback;
         public Action<float> onRmsChangedCallback;
         public Action onBeginningOfSpeechCallback;
         public Action<string> onErrorCallback;
-        public Action<string> onPartialResultsCallback;
         /** Called when the endpointer is ready for the user to start speaking. */
+
         public void onReadyForSpeech(string _params)
         {
             if (onReadyForSpeechCallback != null)
                 onReadyForSpeechCallback(_params);
         }
+
         /** Called after the user stops speaking. */
+
         public void onEndOfSpeech(string _paramsNull)
         {
             if (onEndOfSpeechCallback != null)
                 onEndOfSpeechCallback();
         }
+
         /** The sound level in the audio stream has changed. */
+
         public void onRmsChanged(string _value)
         {
             float _rms = float.Parse(_value);
@@ -199,6 +224,7 @@ namespace TextSpeech
         }
 
         /** The user has started to speak. */
+
         public void onBeginningOfSpeech(string _paramsNull)
         {
             if (onBeginningOfSpeechCallback != null)
@@ -206,6 +232,7 @@ namespace TextSpeech
         }
 
         /** A network or recognition error occurred. */
+
         public void onError(string _value)
         {
             int _error = int.Parse(_value);
@@ -215,14 +242,9 @@ namespace TextSpeech
             if (onErrorCallback != null)
                 onErrorCallback(_message);
         }
-        /** Called when partial recognition results are available. */
-        public void onPartialResults(string _params)
-        {
-            if (onPartialResultsCallback != null)
-                onPartialResultsCallback(_params);
-        }
 
 #endif
-        #endregion
+
+        #endregion Android STT custom
     }
 }

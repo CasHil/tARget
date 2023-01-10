@@ -5,17 +5,19 @@ using UnityEngine;
 public class Pointer : MonoBehaviour
 {
     private GameObject cylinder;
-    public bool laserAim;
-    public bool skeletonRender;
+    public bool laserAim; 
     public bool touchScreenAiming;
+    public bool dualMode;
     public Material laserRed;
+
     [SerializeField]
     public Vector3 aimDirection;
+
     public Vector3 position;
+
     // Start is called before the first frame update
     private void Start()
     {
-        ManomotionManager.Instance.ShouldCalculateSkeleton3D(skeletonRender);
         cylinder = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
         Destroy(cylinder.GetComponent<Rigidbody>()); //The missile gots destroyed by the cylinders rigidbody so I took it away lol
         cylinder.GetComponent<Renderer>().material = laserRed;
@@ -32,43 +34,47 @@ public class Pointer : MonoBehaviour
         Vector3 endJoint = CalculateNewPositionFromJoint(joints[7]);
 
         aimDirection = endJoint - startJoint;
-        position = startJoint + aimDirection; //* 2.0f;
+        position = startJoint + aimDirection * 2.0f;
         Vector3 scale = new Vector3(0.02f, aimDirection.magnitude * 2.0f, 0.02f);
 
-        /*
-        Debug.Log("Start joint: " + startJoint);
+        /*Debug.Log("Start joint: " + startJoint);
         Debug.Log("End joint: " + endJoint);
         Debug.Log("Aim direction: " + aimDirection);
         Debug.Log("Position: " + position);
         Debug.Log("Scale: " + scale);
-        Debug.Log("======================= " + aimDirection);
-        */
-        
-        if(laserAim == true){
-        cylinder.transform.position = position;
-        cylinder.transform.localScale = scale;
-        cylinder.transform.up = aimDirection;
-        }
-        else{
-            Destroy(cylinder);
-        }
-        
-        // This is for testing, we can remove it when we don't want to fire by the touchscreen.
-        if(touchScreenAiming == true){
-            GetComponent<VoiceAim>().enabled = false;
-            if(Input.touchCount == 0)
+        Debug.Log("======================= " + aimDirection);*/
+
+        if (laserAim == true)
         {
-            return;
+            cylinder.transform.position = position;
+            cylinder.transform.localScale = scale;
+            cylinder.transform.up = aimDirection;
         }
         else
-        {   
-            GetComponent<VoiceAim>().StopListening();
-            Shoot();
+        {
+            Destroy(cylinder);
         }
+        // This is for testing, we can remove it when we don't want to fire by the touchscreen.
+        if (touchScreenAiming == true)
+        {   
+            if(!dualMode)
+            {
+                GetComponent<VoiceAim>().enabled = false; 
+            }
+            if (Input.touchCount == 0)
+            {
+                return;
+            }
+            else
+            {   
+                GetComponent<VoiceAim>().StopListening();
+                Shoot();
+            }
         }
     }
 
-    public void Shoot(){
+    public void Shoot()
+    {
         GetComponent<instantiateProjectile>().Fire(position, aimDirection);
     }
 

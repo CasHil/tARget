@@ -12,7 +12,7 @@ public class VoiceAim : MonoBehaviour
     const string LANG_CODE = "en-US";
     Vector3 pos = new Vector3(100, 100, 0);
     [SerializeField]
-
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -40,15 +40,11 @@ public class VoiceAim : MonoBehaviour
     List<string> ResultList = result.Split(' ').ToList();
     string last = ResultList[ResultList.Count - 1];
     Debug.Log(pos);
-        if (last.Contains("shoot"))
+         if (last.Contains("shoot")||last.Contains("Shoot")||last.Contains("pew")||last.Contains("Pew"))
         {
             StopListening();
             GetComponent<Pointer>().Shoot();
         }
-   }
-   public IEnumerator Wait(float seconds)
-    {   
-        yield return new WaitForSeconds(seconds);
     }
 }
 
